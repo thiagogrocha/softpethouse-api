@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name = "users")
-@SequenceGenerator(name = "UsersSeq", sequenceName = "users_seq", allocationSize = 1)
+@SequenceGenerator(name = "UsersSeq", sequenceName = "seq_users", allocationSize = 1)
 public class UserEntity extends EntityBase {
 
     @Id
