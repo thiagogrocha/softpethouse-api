@@ -1,6 +1,6 @@
 package br.com.softpethouse.api.product;
 
-import br.com.softpethouse.api.account.BusinessEntity;
+import br.com.softpethouse.api.account.entity.BusinessEntity;
 import br.com.softpethouse.api.commom.EntityBase;
 import lombok.Data;
 

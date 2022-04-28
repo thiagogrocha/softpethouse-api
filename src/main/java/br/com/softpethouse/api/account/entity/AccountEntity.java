@@ -1,12 +1,14 @@
-package br.com.softpethouse.api.account;
+package br.com.softpethouse.api.account.entity;
 
 import br.com.softpethouse.api.commom.EntityBase;
 import br.com.softpethouse.api.user.UserEntity;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Data
+@NoArgsConstructor
 @Entity
 @Table(name = "accounts")
 @SequenceGenerator(name = "AccountsSeq", sequenceName = "seq_accounts", allocationSize = 1)
@@ -37,4 +39,12 @@ public class AccountEntity extends EntityBase {
     @Column(nullable = false)
     private String password;
 
+    public AccountEntity(UserEntity user, TypeAccountEntity typeAccount, BusinessEntity business, String nickname, String email, String password) {
+        this.user = user;
+        this.typeAccount = typeAccount;
+        this.business = business;
+        this.nickname = nickname;
+        this.email = email;
+        this.password = password;
+    }
 }
