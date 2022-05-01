@@ -1,5 +1,6 @@
 package br.com.softpethouse.api.account.resource;
 
+import br.com.softpethouse.api.Resources;
 import br.com.softpethouse.api.account.dto.AccountDtoIn;
 import br.com.softpethouse.api.account.entity.AccountEntity;
 import br.com.softpethouse.api.account.service.AccountService;
@@ -15,7 +16,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("/accounts")
+@Path(Resources.ACCOUNT)
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class AccountResource {
@@ -35,7 +36,7 @@ public class AccountResource {
             @APIResponse(responseCode = "422", description = "Campos obrigatórios não informados",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = ResponseError.class))),
             @APIResponse(responseCode = "500", description = "Erro interno")})
-    public Response saveAccount(AccountDtoIn dto) {
+    public Response post(AccountDtoIn dto) {
         try {
             return service.save(dto);
         } catch (Exception e) {
