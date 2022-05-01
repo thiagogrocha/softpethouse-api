@@ -1,6 +1,6 @@
 package br.com.softpethouse.api.account.dto;
 
-import br.com.softpethouse.api.user.dto.UserDtoIn;
+import br.com.softpethouse.api.user.dto.UserDto;
 import lombok.Data;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
@@ -13,9 +13,9 @@ import javax.validation.constraints.NotNull;
 public class AccountDtoIn {
 
     @NotNull(message = "O Usuário é obrigatório!")
-    @Schema(title = "UserDtoIn")
-    @Parameter(description = "UserDtoIn parameter")
-    private UserDtoIn userDtoIn;
+    @Schema(title = "UserDto")
+    @Parameter(description = "UserDto parameter")
+    private UserDto userDto;
 
     @NotNull(message = "Campo IdTypeAccount é obrigatório!")
     @Schema(title = "Id TypeAccount")
