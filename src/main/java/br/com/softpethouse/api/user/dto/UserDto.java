@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @Schema(name = "User dto in", description = "User dto in")
-public class UserDtoIn {
+public class UserDto {
 
     @NotBlank(message = "Campo nome é obrigatório!")
     @Schema(title = "Name")
