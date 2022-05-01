@@ -1,10 +1,10 @@
 package br.com.softpethouse.api.account.service;
 
+import br.com.softpethouse.api.Resources;
 import br.com.softpethouse.api.account.dto.AccountDtoIn;
 import br.com.softpethouse.api.account.entity.AccountEntity;
 import br.com.softpethouse.api.account.entity.BusinessEntity;
 import br.com.softpethouse.api.account.entity.TypeAccountEntity;
-import br.com.softpethouse.api.account.resource.AccountResource;
 import br.com.softpethouse.api.commom.validation.ResponseError;
 import br.com.softpethouse.api.commom.validation.ResponseMsg;
 import br.com.softpethouse.api.user.UserEntity;
@@ -42,7 +42,7 @@ public class AccountService implements PanacheRepository<AccountEntity> {
                     .createFromValidation(violations)
                     .withStatusCode(ResponseError.UNPROCESSABLE_ENTITY_STATUS);
 
-       if (dto.getUserDtoIn() == null)
+       if (dto.getUserDto() == null)
            return Response.status(Response.Status.NOT_FOUND.getStatusCode()).entity(new ResponseMsg("Usuário não encontrada!")).build();
 
         TypeAccountEntity typeAccount = typeAccountService.findById(dto.getIdTypeAccount());
@@ -55,11 +55,11 @@ public class AccountService implements PanacheRepository<AccountEntity> {
         if (business == null)
             return Response.status(Response.Status.NOT_FOUND.getStatusCode()).entity(new ResponseMsg("Negócio não encontrado!")).build();
 
-        UserEntity user = new UserEntity(dto.getUserDtoIn().getName(), dto.getUserDtoIn().getAge());
+        UserEntity user = new UserEntity(dto.getUserDto().getName(), dto.getUserDto().getAge());
 
-        AccountEntity newAccount = new AccountEntity(user, typeAccount, business, dto.getNickName(), dto.getEmail(), dto.getPassword());
-        persist(newAccount);
+        AccountEntity entity = new AccountEntity(user, typeAccount, business, dto.getNickName(), dto.getEmail(), dto.getPassword());
+        persist(entity);
 
-        return Response.created(UriBuilder.fromResource(AccountResource.class).path(newAccount.getId().toString()).build()).build();
+        return Response.created(UriBuilder.fromPath(Resources.ACCOUNT).path(entity.getId().toString()).build()).build();
     }
 }
