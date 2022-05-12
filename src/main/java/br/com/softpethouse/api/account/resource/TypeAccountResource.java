@@ -3,6 +3,7 @@ package br.com.softpethouse.api.account.resource;
 import br.com.softpethouse.api.Resources;
 import br.com.softpethouse.api.account.dto.TypeAccountDto;
 import br.com.softpethouse.api.account.entity.AccountEntity;
+import br.com.softpethouse.api.account.entity.TypeAccountEntity;
 import br.com.softpethouse.api.account.service.TypeAccountService;
 import br.com.softpethouse.api.commom.validation.ResponseError;
 import org.eclipse.microprofile.openapi.annotations.Operation;
@@ -35,7 +36,7 @@ public class TypeAccountResource {
     @Operation(summary = "Cria Tipo de Conta", description = "Um Conta pode ser do tipo Cliente, Consultor ou Administrador")
     @APIResponses(value = {
             @APIResponse(responseCode = "201", description = "Criado",
-                    content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = AccountEntity.class))),
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = TypeAccountDto.class))),
             @APIResponse(responseCode = "422", description = "Campos obrigatórios não informados",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = ResponseError.class))),
             @APIResponse(responseCode = "500", description = "Erro interno")})

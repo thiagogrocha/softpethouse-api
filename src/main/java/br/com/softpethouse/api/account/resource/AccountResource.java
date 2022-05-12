@@ -2,6 +2,7 @@ package br.com.softpethouse.api.account.resource;
 
 import br.com.softpethouse.api.Resources;
 import br.com.softpethouse.api.account.dto.AccountDtoIn;
+import br.com.softpethouse.api.account.dto.AccountDtoOut;
 import br.com.softpethouse.api.account.entity.AccountEntity;
 import br.com.softpethouse.api.account.service.AccountService;
 import br.com.softpethouse.api.commom.validation.ResponseError;
@@ -32,7 +33,7 @@ public class AccountResource {
     @Operation(summary = "Cria Conta de Usuário", description = "Cria Conta de Usuário")
     @APIResponses(value = {
             @APIResponse(responseCode = "201", description = "Criado",
-                    content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = AccountEntity.class))),
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = AccountDtoOut.class))),
             @APIResponse(responseCode = "422", description = "Campos obrigatórios não informados",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = ResponseError.class))),
             @APIResponse(responseCode = "500", description = "Erro interno")})
