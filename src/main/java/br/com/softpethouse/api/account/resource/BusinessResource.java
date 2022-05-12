@@ -13,12 +13,10 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 
 import javax.inject.Inject;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.stream.Collectors;
 
 @Path(Resources.BUSINESS)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -43,6 +41,25 @@ public class BusinessResource {
     public Response post(BusinessDto dto) {
         try {
             return service.save(dto);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode()).entity(e).build();
+        }
+    }
+
+    @GET
+    @Operation(summary = "Lista Negócios", description = "Lista Lojas ou Clínicas Veterinárias")
+    @APIResponses(value = {
+            @APIResponse(responseCode = "200", description = "Sucesso",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = BusinessDto.class))),
+            @APIResponse(responseCode = "403", description = "Usuário não encontrado"),
+            @APIResponse(responseCode = "500", description = "Erro interno")})
+    public Response get() {
+        try {
+            return Response.ok(service.listAll()
+                    .stream()
+                    .map(BusinessDto::fromEntity)
+                    .collect(Collectors.toList())).build();
         } catch (Exception e) {
             e.printStackTrace();
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode()).entity(e).build();
