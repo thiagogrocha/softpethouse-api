@@ -1,12 +1,15 @@
 package br.com.softpethouse.api.account.dto;
 
+import br.com.softpethouse.api.account.entity.BusinessEntity;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 
 import javax.validation.constraints.NotNull;
 
 @Data
+@NoArgsConstructor
 @Schema(name = "Business", description = "Business dto in")
 public class BusinessDto {
 
@@ -20,4 +23,12 @@ public class BusinessDto {
     @Parameter(description = "Descrição parameter")
     private String description;
 
+    public BusinessDto(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
+    public static BusinessDto fromEntity(BusinessEntity entity) {
+            return new BusinessDto(entity.getName(), entity.getDescription());
+    }
 }
