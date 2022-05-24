@@ -64,12 +64,11 @@ public class AccountResource {
         }
     }
 
-
     @DELETE
     @Path("{accountId}")
     @Operation(summary = "Desativar", description = "Desativa Conta de Usuário")
     @APIResponses(value = {
-            @APIResponse(responseCode = "200", description = "Sucesso",
+            @APIResponse(responseCode = "204", description = "Desativado",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = String.class))),
             @APIResponse(responseCode = "422", description = "Campos obrigatórios não informados",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = ResponseError.class))),
