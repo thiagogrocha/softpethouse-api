@@ -11,6 +11,7 @@ import br.com.softpethouse.api.commom.validation.ResponseError;
 import br.com.softpethouse.api.commom.validation.ResponseMsg;
 import br.com.softpethouse.api.user.UserEntity;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
+import io.quarkus.panache.common.Sort;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -20,6 +21,7 @@ import javax.validation.Validator;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Transactional
 @ApplicationScoped
@@ -110,7 +112,10 @@ public class AccountService implements PanacheRepository<AccountEntity> {
     }
 
     public Response accounts() {
-        return Response.ok().entity(listAll()).build();
+        return Response.ok().entity(findAll(Sort.by("username", Sort.Direction.Ascending))
+                .stream()
+                .map(AccountDtoOut::fromEntity)
+                .collect(Collectors.toList())).build();
     }
 
     public Response accounts(long id) {
