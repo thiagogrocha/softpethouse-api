@@ -1,7 +1,8 @@
 package br.com.softpethouse.api.account.service;
 
 import br.com.softpethouse.api.Resources;
-import br.com.softpethouse.api.account.dto.AccountDtoIn;
+import br.com.softpethouse.api.account.dto.AccountDtoCreate;
+import br.com.softpethouse.api.account.dto.AccountDtoUpdate;
 import br.com.softpethouse.api.account.entity.AccountEntity;
 import br.com.softpethouse.api.account.entity.BusinessEntity;
 import br.com.softpethouse.api.account.entity.TypeAccountEntity;
@@ -24,26 +25,28 @@ import java.util.Set;
 public class AccountService implements PanacheRepository<AccountEntity> {
 
     private Validator validator;
+    private AccountService accountService;
     private TypeAccountService typeAccountService;
     private BusinessService businessService;
 
     @Inject
-    public AccountService(Validator validator, TypeAccountService typeAccountService, BusinessService businessService) {
+    public AccountService(Validator validator, AccountService accountService, TypeAccountService typeAccountService, BusinessService businessService) {
         this.validator = validator;
+        this.accountService = accountService;
         this.typeAccountService = typeAccountService;
         this.businessService = businessService;
     }
 
-    public Response save(AccountDtoIn dto) {
-        Set<ConstraintViolation<AccountDtoIn>> violations = validator.validate(dto);
+    public Response create(AccountDtoCreate dto) {
+        Set<ConstraintViolation<AccountDtoCreate>> violations = validator.validate(dto);
 
         if (!violations.isEmpty())
             return ResponseError
                     .createFromValidation(violations)
                     .withStatusCode(ResponseError.UNPROCESSABLE_ENTITY_STATUS);
 
-       if (dto.getUserDto() == null)
-           return Response.status(Response.Status.NOT_FOUND.getStatusCode()).entity(new ResponseMsg("Usuário não encontrada!")).build();
+        if (dto.getUser() == null)
+            return Response.status(Response.Status.NOT_FOUND.getStatusCode()).entity(new ResponseMsg("Usuário não encontrada!")).build();
 
         TypeAccountEntity typeAccount = typeAccountService.findById(dto.getIdTypeAccount());
 
@@ -55,11 +58,53 @@ public class AccountService implements PanacheRepository<AccountEntity> {
         if (business == null)
             return Response.status(Response.Status.NOT_FOUND.getStatusCode()).entity(new ResponseMsg("Negócio não encontrado!")).build();
 
-        UserEntity user = new UserEntity(dto.getUserDto().getName(), dto.getUserDto().getAge());
+        UserEntity user = new UserEntity(dto.getUser().getName(), dto.getUser().getAge());
 
-        AccountEntity entity = new AccountEntity(user, typeAccount, business, dto.getNickName(), dto.getEmail(), dto.getPassword());
+        AccountEntity entity = new AccountEntity(user, typeAccount, business, dto.getUserName(), dto.getEmail(), dto.getPassword());
         persist(entity);
 
         return Response.created(UriBuilder.fromPath(Resources.ACCOUNT).path(entity.getId().toString()).build()).build();
+    }
+
+    public Response update(long id, AccountDtoUpdate dto) {
+        AccountEntity account = accountService.findById(id);
+
+        if (account == null)
+            return Response.status(Response.Status.NOT_FOUND.getStatusCode()).entity(new ResponseMsg("Conta não encontrada!")).build();
+
+        Set<ConstraintViolation<AccountDtoUpdate>> violations = validator.validate(dto);
+
+        if (!violations.isEmpty())
+            return ResponseError
+                    .createFromValidation(violations)
+                    .withStatusCode(ResponseError.UNPROCESSABLE_ENTITY_STATUS);
+
+        TypeAccountEntity typeAccount = typeAccountService.findById(dto.getIdTypeAccount());
+
+        if (typeAccount == null)
+            return Response.status(Response.Status.NOT_FOUND.getStatusCode()).entity(new ResponseMsg("Tipo de Conta não encontrada!")).build();
+
+        BusinessEntity business = businessService.findById(dto.getIdBusiness());
+
+        if (business == null)
+            return Response.status(Response.Status.NOT_FOUND.getStatusCode()).entity(new ResponseMsg("Negócio não encontrado!")).build();
+
+        account.setTypeAccount(typeAccount);
+        account.setBusiness(business);
+        account.setUsername(dto.getUserName());
+        account.setPassword(dto.getPassword());
+
+        return Response.status(Response.Status.OK.getStatusCode()).entity(new ResponseMsg("Conta atualizada!")).build();
+    }
+
+    public Response disable(long id) {
+        AccountEntity account = accountService.findById(id);
+
+        if (account == null)
+            return Response.status(Response.Status.NOT_FOUND.getStatusCode()).entity(new ResponseMsg("Conta não encontrada!")).build();
+
+        account.setActive("N");
+
+        return Response.status(Response.Status.NO_CONTENT.getStatusCode()).entity(new ResponseMsg("Conta desativada com sucesso!")).build();
     }
 }
