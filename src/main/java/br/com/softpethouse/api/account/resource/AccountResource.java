@@ -16,6 +16,7 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.xml.validation.Validator;
 
 @Path(Resources.ACCOUNT)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -27,6 +28,37 @@ public class AccountResource {
     @Inject
     public AccountResource(AccountService service) {
         this.service = service;
+    }
+
+    @GET
+    @Operation(summary = "Contas", description = "Lista todas as Contas de Usuário")
+    @APIResponses(value = {
+            @APIResponse(responseCode = "200", description = "Sucesso",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = AccountDtoOut[].class))),
+            @APIResponse(responseCode = "500", description = "Erro interno")}    )
+    public Response accounts(){
+        try{
+            return service.accounts();
+        }catch (Exception e){
+            e.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode()).entity(e).build();
+        }
+    }
+
+    @GET
+    @Path(("{accountId}"))
+    @Operation(summary = "Conta", description = "Busca Conta de Usuário por id")
+    @APIResponses(value = {
+            @APIResponse(responseCode = "200", description = "Sucesso",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = AccountDtoOut.class))),
+            @APIResponse(responseCode = "500", description = "Erro interno")}    )
+    public Response accounts(@PathParam("accountId") long id){
+        try{
+            return service.accounts(id);
+        }catch (Exception e){
+            e.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode()).entity(e).build();
+        }
     }
 
     @POST
@@ -76,7 +108,7 @@ public class AccountResource {
     public Response disable(@PathParam("id") long id) {
         try {
             return service.disable(id);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode()).entity(e).build();
         }

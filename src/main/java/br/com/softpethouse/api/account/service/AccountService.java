@@ -2,6 +2,7 @@ package br.com.softpethouse.api.account.service;
 
 import br.com.softpethouse.api.Resources;
 import br.com.softpethouse.api.account.dto.AccountDtoCreate;
+import br.com.softpethouse.api.account.dto.AccountDtoOut;
 import br.com.softpethouse.api.account.dto.AccountDtoUpdate;
 import br.com.softpethouse.api.account.entity.AccountEntity;
 import br.com.softpethouse.api.account.entity.BusinessEntity;
@@ -60,7 +61,7 @@ public class AccountService implements PanacheRepository<AccountEntity> {
 
         UserEntity user = new UserEntity(dto.getUser().getName(), dto.getUser().getAge());
 
-        AccountEntity entity = new AccountEntity(user, typeAccount, business, dto.getUserName(), dto.getEmail(), dto.getPassword());
+        AccountEntity entity = new AccountEntity(user, typeAccount, business, dto.getUsername(), dto.getEmail(), dto.getPassword());
         persist(entity);
 
         return Response.created(UriBuilder.fromPath(Resources.ACCOUNT).path(entity.getId().toString()).build()).build();
@@ -106,5 +107,18 @@ public class AccountService implements PanacheRepository<AccountEntity> {
         account.setActive("N");
 
         return Response.status(Response.Status.NO_CONTENT.getStatusCode()).entity(new ResponseMsg("Conta desativada com sucesso!")).build();
+    }
+
+    public Response accounts() {
+        return Response.ok().entity(listAll()).build();
+    }
+
+    public Response accounts(long id) {
+        AccountEntity account = accountService.findById(id);
+
+        if (account == null)
+            return Response.status(Response.Status.NOT_FOUND.getStatusCode()).entity(new ResponseMsg("Conta não encontrada!")).build();
+
+        return Response.ok().entity(AccountDtoOut.fromEntity(account)).build();
     }
 }
