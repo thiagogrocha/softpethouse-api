@@ -31,7 +31,7 @@ public class AccountDtoCreate {
     @NotBlank(message = "Campo Nome de Usuário é obrigatório!")
     @Schema(title = "Username")
     @Parameter(description = "Username parameter")
-    private String userName;
+    private String username;
 
     @NotBlank(message = "Campo email é obrigatório!")
     @Schema(title = "E-mail")
