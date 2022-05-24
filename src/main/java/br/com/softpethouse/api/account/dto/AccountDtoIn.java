@@ -13,9 +13,9 @@ import javax.validation.constraints.NotNull;
 public class AccountDtoIn {
 
     @NotNull(message = "O Usuário é obrigatório!")
-    @Schema(title = "UserDto")
+    @Schema(title = "User")
     @Parameter(description = "UserDto parameter")
-    private UserDto userDto;
+    private UserDto user;
 
     @NotNull(message = "Campo IdTypeAccount é obrigatório!")
     @Schema(title = "Id TypeAccount")
