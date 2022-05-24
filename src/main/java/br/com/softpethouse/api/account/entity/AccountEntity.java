@@ -54,4 +54,8 @@ public class AccountEntity extends EntityBase {
         this.email = email;
         this.password = password;
     }
+
+//    private void prePersist() {
+//        setActive("S");
+//    }
 }
