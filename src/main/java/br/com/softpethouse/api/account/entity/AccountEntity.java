@@ -43,7 +43,7 @@ public class AccountEntity extends EntityBase {
     private String password;
 
     @Column(nullable = false)
-    @ColumnDefault(value = "S")
+    @ColumnDefault(value = "'S'")
     private String active;
 
     public AccountEntity(UserEntity user, TypeAccountEntity typeAccount, BusinessEntity business, String username, String email, String password) {
