@@ -4,6 +4,8 @@ import br.com.softpethouse.api.commom.EntityBase;
 import br.com.softpethouse.api.user.UserEntity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Check;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 
@@ -12,6 +14,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "accounts")
 @SequenceGenerator(name = "AccountsSeq", sequenceName = "seq_accounts", allocationSize = 1)
+@Check(constraints = "upper(active) in ('S', 'N')")
 public class AccountEntity extends EntityBase {
 
     @Id
@@ -31,7 +34,7 @@ public class AccountEntity extends EntityBase {
     private BusinessEntity business;
 
     @Column(nullable = false)
-    private String nickname;
+    private String username;
 
     @Column(nullable = false)
     private String email;
@@ -39,11 +42,15 @@ public class AccountEntity extends EntityBase {
     @Column(nullable = false)
     private String password;
 
-    public AccountEntity(UserEntity user, TypeAccountEntity typeAccount, BusinessEntity business, String nickname, String email, String password) {
+    @Column(nullable = false)
+    @ColumnDefault(value = "S")
+    private String active;
+
+    public AccountEntity(UserEntity user, TypeAccountEntity typeAccount, BusinessEntity business, String username, String email, String password) {
         this.user = user;
         this.typeAccount = typeAccount;
         this.business = business;
-        this.nickname = nickname;
+        this.username = username;
         this.email = email;
         this.password = password;
     }
