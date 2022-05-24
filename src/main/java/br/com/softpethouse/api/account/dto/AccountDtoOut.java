@@ -33,16 +33,21 @@ public class AccountDtoOut {
     @Parameter(description = "Email")
     private String email;
 
-    public AccountDtoOut(UserDto user, TypeAccountDto typeAccount, BusinessDto business, String username, String email) {
+    @Schema(title = "Active")
+    @Parameter(description = "Active")
+    private String active;
+
+    public AccountDtoOut(UserDto user, TypeAccountDto typeAccount, BusinessDto business, String username, String email, String active) {
         this.user = user;
         this.typeAccount = typeAccount;
         this.business = business;
         this.username = username;
         this.email = email;
+        this.active = active;
     }
 
     public static AccountDtoOut fromEntity(AccountEntity entity){
-        return new AccountDtoOut(UserDto.fromEntity(entity.getUser()), TypeAccountDto.fromEntity(entity.getTypeAccount()), BusinessDto.fromEntity(entity.getBusiness()), entity.getUsername(), entity.getPassword());
+        return new AccountDtoOut(UserDto.fromEntity(entity.getUser()), TypeAccountDto.fromEntity(entity.getTypeAccount()), BusinessDto.fromEntity(entity.getBusiness()), entity.getUsername(), entity.getPassword(), entity.getActive());
     }
 
 }
