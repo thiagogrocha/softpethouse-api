@@ -1,6 +1,6 @@
 package br.com.softpethouse.api.user.service;
 
-import br.com.softpethouse.api.user.UserEntity;
+import br.com.softpethouse.api.user.entity.UserEntity;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
 import javax.enterprise.context.ApplicationScoped;

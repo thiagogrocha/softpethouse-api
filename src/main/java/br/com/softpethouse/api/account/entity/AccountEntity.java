@@ -1,7 +1,8 @@
 package br.com.softpethouse.api.account.entity;
 
+import br.com.softpethouse.api.business.entity.BusinessEntity;
 import br.com.softpethouse.api.commom.EntityBase;
-import br.com.softpethouse.api.user.UserEntity;
+import br.com.softpethouse.api.user.entity.UserEntity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Check;

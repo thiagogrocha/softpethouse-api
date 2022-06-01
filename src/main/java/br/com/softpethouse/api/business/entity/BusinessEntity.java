@@ -1,4 +1,4 @@
-package br.com.softpethouse.api.account.entity;
+package br.com.softpethouse.api.business.entity;
 
 import br.com.softpethouse.api.commom.EntityBase;
 import lombok.Data;

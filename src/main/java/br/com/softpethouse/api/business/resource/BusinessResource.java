@@ -1,9 +1,7 @@
-package br.com.softpethouse.api.account.resource;
+package br.com.softpethouse.api.business.resource;
 
 import br.com.softpethouse.api.Resources;
-import br.com.softpethouse.api.account.dto.BusinessDto;
-import br.com.softpethouse.api.account.entity.AccountEntity;
-import br.com.softpethouse.api.account.entity.BusinessEntity;
+import br.com.softpethouse.api.business.dto.BusinessDto;
 import br.com.softpethouse.api.account.service.BusinessService;
 import br.com.softpethouse.api.commom.validation.ResponseError;
 import org.eclipse.microprofile.openapi.annotations.Operation;

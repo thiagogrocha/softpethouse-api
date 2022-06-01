@@ -5,11 +5,11 @@ import br.com.softpethouse.api.account.dto.AccountDtoCreate;
 import br.com.softpethouse.api.account.dto.AccountDtoOut;
 import br.com.softpethouse.api.account.dto.AccountDtoUpdate;
 import br.com.softpethouse.api.account.entity.AccountEntity;
-import br.com.softpethouse.api.account.entity.BusinessEntity;
+import br.com.softpethouse.api.business.entity.BusinessEntity;
 import br.com.softpethouse.api.account.entity.TypeAccountEntity;
 import br.com.softpethouse.api.commom.validation.ResponseError;
 import br.com.softpethouse.api.commom.validation.ResponseMsg;
-import br.com.softpethouse.api.user.UserEntity;
+import br.com.softpethouse.api.user.entity.UserEntity;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import io.quarkus.panache.common.Sort;
 

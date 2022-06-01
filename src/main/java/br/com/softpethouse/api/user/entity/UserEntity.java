@@ -1,4 +1,4 @@
-package br.com.softpethouse.api.user;
+package br.com.softpethouse.api.user.entity;
 
 import br.com.softpethouse.api.commom.EntityBase;
 import lombok.Data;

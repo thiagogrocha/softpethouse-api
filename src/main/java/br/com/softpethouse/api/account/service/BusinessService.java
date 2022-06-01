@@ -1,9 +1,8 @@
 package br.com.softpethouse.api.account.service;
 
 import br.com.softpethouse.api.Resources;
-import br.com.softpethouse.api.account.dto.BusinessDto;
-import br.com.softpethouse.api.account.entity.BusinessEntity;
-import br.com.softpethouse.api.account.resource.BusinessResource;
+import br.com.softpethouse.api.business.dto.BusinessDto;
+import br.com.softpethouse.api.business.entity.BusinessEntity;
 import br.com.softpethouse.api.commom.validation.ResponseError;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 

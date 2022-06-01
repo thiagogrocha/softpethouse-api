@@ -1,6 +1,6 @@
-package br.com.softpethouse.api.account.dto;
+package br.com.softpethouse.api.business.dto;
 
-import br.com.softpethouse.api.account.entity.BusinessEntity;
+import br.com.softpethouse.api.business.entity.BusinessEntity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;

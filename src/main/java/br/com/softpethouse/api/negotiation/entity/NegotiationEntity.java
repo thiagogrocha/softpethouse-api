@@ -1,8 +1,8 @@
-package br.com.softpethouse.api.negotiation;
+package br.com.softpethouse.api.negotiation.entity;
 
 import br.com.softpethouse.api.commom.EntityBase;
-import br.com.softpethouse.api.product.ProductEntity;
-import br.com.softpethouse.api.user.UserEntity;
+import br.com.softpethouse.api.product.entity.ProductEntity;
+import br.com.softpethouse.api.user.entity.UserEntity;
 import lombok.Data;
 
 import javax.persistence.*;

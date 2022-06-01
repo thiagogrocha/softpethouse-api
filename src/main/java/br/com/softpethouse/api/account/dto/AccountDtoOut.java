@@ -1,6 +1,7 @@
 package br.com.softpethouse.api.account.dto;
 
 import br.com.softpethouse.api.account.entity.AccountEntity;
+import br.com.softpethouse.api.business.dto.BusinessDto;
 import br.com.softpethouse.api.user.dto.UserDto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
