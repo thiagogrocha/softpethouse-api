@@ -16,7 +16,6 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.xml.validation.Validator;
 
 @Path(Resources.ACCOUNT)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -51,6 +50,7 @@ public class AccountResource {
     @APIResponses(value = {
             @APIResponse(responseCode = "200", description = "Sucesso",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = AccountDtoOut.class))),
+            @APIResponse(responseCode = "403", description = "Conta não encontrada"),
             @APIResponse(responseCode = "500", description = "Erro interno")}    )
     public Response accounts(@PathParam("accountId") long id){
         try{
@@ -84,6 +84,7 @@ public class AccountResource {
     @APIResponses(value = {
             @APIResponse(responseCode = "200", description = "Sucesso",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = String.class))),
+            @APIResponse(responseCode = "403", description = "Conta não encontrada"),
             @APIResponse(responseCode = "422", description = "Campos obrigatórios não informados",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = ResponseError.class))),
             @APIResponse(responseCode = "500", description = "Erro interno")})
@@ -102,6 +103,7 @@ public class AccountResource {
     @APIResponses(value = {
             @APIResponse(responseCode = "204", description = "Desativado",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = String.class))),
+            @APIResponse(responseCode = "403", description = "Conta não encontrada"),
             @APIResponse(responseCode = "422", description = "Campos obrigatórios não informados",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = ResponseError.class))),
             @APIResponse(responseCode = "500", description = "Erro interno")})
@@ -113,4 +115,5 @@ public class AccountResource {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode()).entity(e).build();
         }
     }
+
 }
