@@ -31,6 +31,7 @@ public class AccountService implements PanacheRepository<AccountEntity> {
     private AccountService accountService;
     private TypeAccountService typeAccountService;
     private BusinessService businessService;
+    private String notFound;
 
     @Inject
     public AccountService(Validator validator, AccountService accountService, TypeAccountService typeAccountService, BusinessService businessService) {
@@ -38,6 +39,23 @@ public class AccountService implements PanacheRepository<AccountEntity> {
         this.accountService = accountService;
         this.typeAccountService = typeAccountService;
         this.businessService = businessService;
+        this.notFound = "Conta não encontrada!";
+    }
+
+    public Response accounts() {
+        return Response.ok().entity(findAll(Sort.by("username", Sort.Direction.Ascending))
+                .stream()
+                .map(AccountDtoOut::fromEntity)
+                .collect(Collectors.toList())).build();
+    }
+
+    public Response accounts(long id) {
+        AccountEntity account = accountService.findById(id);
+
+        if (account == null)
+            return Response.status(Response.Status.NOT_FOUND.getStatusCode()).entity(new ResponseMsg(notFound)).build();
+
+        return Response.ok().entity(AccountDtoOut.fromEntity(account)).build();
     }
 
     public Response create(AccountDtoCreate dto) {
@@ -73,7 +91,7 @@ public class AccountService implements PanacheRepository<AccountEntity> {
         AccountEntity account = accountService.findById(id);
 
         if (account == null)
-            return Response.status(Response.Status.NOT_FOUND.getStatusCode()).entity(new ResponseMsg("Conta não encontrada!")).build();
+            return Response.status(Response.Status.NOT_FOUND.getStatusCode()).entity(new ResponseMsg(notFound)).build();
 
         Set<ConstraintViolation<AccountDtoUpdate>> violations = validator.validate(dto);
 
@@ -104,26 +122,10 @@ public class AccountService implements PanacheRepository<AccountEntity> {
         AccountEntity account = accountService.findById(id);
 
         if (account == null)
-            return Response.status(Response.Status.NOT_FOUND.getStatusCode()).entity(new ResponseMsg("Conta não encontrada!")).build();
+            return Response.status(Response.Status.NOT_FOUND.getStatusCode()).entity(new ResponseMsg(notFound)).build();
 
         account.setActive("N");
 
         return Response.status(Response.Status.NO_CONTENT.getStatusCode()).entity(new ResponseMsg("Conta desativada com sucesso!")).build();
-    }
-
-    public Response accounts() {
-        return Response.ok().entity(findAll(Sort.by("username", Sort.Direction.Ascending))
-                .stream()
-                .map(AccountDtoOut::fromEntity)
-                .collect(Collectors.toList())).build();
-    }
-
-    public Response accounts(long id) {
-        AccountEntity account = accountService.findById(id);
-
-        if (account == null)
-            return Response.status(Response.Status.NOT_FOUND.getStatusCode()).entity(new ResponseMsg("Conta não encontrada!")).build();
-
-        return Response.ok().entity(AccountDtoOut.fromEntity(account)).build();
     }
 }
