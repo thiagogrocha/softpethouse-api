@@ -1,12 +1,10 @@
 package br.com.softpethouse.api.account.service;
 
 import br.com.softpethouse.api.Resources;
-import br.com.softpethouse.api.account.dto.AccountDtoOut;
-import br.com.softpethouse.api.account.dto.AccountDtoUpdate;
 import br.com.softpethouse.api.business.dto.BusinessDto;
+import br.com.softpethouse.api.business.dto.BusinessDtoOut;
 import br.com.softpethouse.api.business.entity.BusinessEntity;
 import br.com.softpethouse.api.commom.validation.ResponseError;
-import br.com.softpethouse.api.commom.validation.ResponseMsg;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -30,6 +28,22 @@ public class BusinessService implements PanacheRepository<BusinessEntity> {
         this.validator = validator;
     }
 
+    public Response business() {
+        return Response.ok(findAll()
+                .stream()
+                .map(BusinessDtoOut::fromEntity)
+                .collect(Collectors.toList())).build();
+    }
+
+    public Response business(long id) {
+        BusinessEntity business = findById(id);
+
+        if (business == null)
+            return Response.status(Response.Status.NOT_FOUND.getStatusCode()).build();
+
+        return Response.ok().entity(BusinessDtoOut.fromEntity(business)).build();
+    }
+
     public Response create(BusinessDto dto) {
         Set<ConstraintViolation<BusinessDto>> violations = validator.validate(dto);
 
@@ -44,18 +58,11 @@ public class BusinessService implements PanacheRepository<BusinessEntity> {
         return Response.created(UriBuilder.fromPath(Resources.BUSINESS).path(entity.getId().toString()).build()).build();
     }
 
-    public Response accounts() {
-        return Response.ok(findAll()
-                .stream()
-                .map(BusinessDto::fromEntity)
-                .collect(Collectors.toList())).build();
-    }
-
     public Response update(long id, BusinessDto dto) {
         BusinessEntity business = findById(id);
 
         if (business == null)
-            return Response.status(Response.Status.NOT_FOUND.getStatusCode()).entity(new ResponseMsg("Negócio não encontrado")).build();
+            return Response.status(Response.Status.NOT_FOUND.getStatusCode()).build();
 
         Set<ConstraintViolation<BusinessDto>> violations = validator.validate(dto);
 
@@ -67,17 +74,18 @@ public class BusinessService implements PanacheRepository<BusinessEntity> {
         business.setName(dto.getName());
         business.setDescription(dto.getDescription());
 
-        return Response.status(Response.Status.OK.getStatusCode()).entity(new ResponseMsg("Negócio atualizado!")).build();
+        return Response.ok().build();
     }
 
     public Response disable(long id) {
         BusinessEntity business = findById(id);
 
         if (business == null)
-            return Response.status(Response.Status.NOT_FOUND.getStatusCode()).entity(new ResponseMsg("Negócio não encontrado")).build();
+            return Response.status(Response.Status.NOT_FOUND.getStatusCode()).build();
 
         business.setActive("N");
 
-        return Response.ok().entity(BusinessDto.fromEntity(business)).build();
+        return Response.noContent().build();
     }
+
 }
