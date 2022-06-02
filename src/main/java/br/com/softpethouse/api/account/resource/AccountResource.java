@@ -30,7 +30,7 @@ public class AccountResource {
     }
 
     @GET
-    @Operation(summary = "Contas", description = "Lista todas as Contas de Usuário")
+    @Operation(summary = "Contas de Usuário", description = "Lista todas as Contas de Usuário")
     @APIResponses(value = {
             @APIResponse(responseCode = "200", description = "Sucesso",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = AccountDtoOut[].class))),
@@ -45,14 +45,14 @@ public class AccountResource {
     }
 
     @GET
-    @Path(("{accountId}"))
-    @Operation(summary = "Conta", description = "Busca Conta de Usuário por id")
+    @Path(("{id}"))
+    @Operation(summary = "Conta de Usuário", description = "Busca Conta de Usuário por id")
     @APIResponses(value = {
             @APIResponse(responseCode = "200", description = "Sucesso",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = AccountDtoOut.class))),
-            @APIResponse(responseCode = "403", description = "Conta não encontrada"),
+            @APIResponse(responseCode = "403", description = "Conta de Usuário não encontrada"),
             @APIResponse(responseCode = "500", description = "Erro interno")}    )
-    public Response accounts(@PathParam("accountId") long id){
+    public Response accounts(@PathParam("id") long id){
         try{
             return service.accounts(id);
         }catch (Exception e){
@@ -79,7 +79,7 @@ public class AccountResource {
     }
 
     @PUT
-    @Path("{accountId}")
+    @Path("{id}")
     @Operation(summary = "Atualizar", description = "Atualiza Conta de Usuário")
     @APIResponses(value = {
             @APIResponse(responseCode = "200", description = "Sucesso",
@@ -88,7 +88,7 @@ public class AccountResource {
             @APIResponse(responseCode = "422", description = "Campos obrigatórios não informados",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = ResponseError.class))),
             @APIResponse(responseCode = "500", description = "Erro interno")})
-    public Response update(@PathParam("accountId") long id, AccountDtoUpdate dto) {
+    public Response update(@PathParam("id") long id, AccountDtoUpdate dto) {
         try {
             return service.update(id, dto);
         } catch (Exception e) {
@@ -98,14 +98,12 @@ public class AccountResource {
     }
 
     @DELETE
-    @Path("{accountId}")
+    @Path("{id}")
     @Operation(summary = "Desativar", description = "Desativa Conta de Usuário")
     @APIResponses(value = {
             @APIResponse(responseCode = "204", description = "Desativado",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = String.class))),
             @APIResponse(responseCode = "403", description = "Conta não encontrada"),
-            @APIResponse(responseCode = "422", description = "Campos obrigatórios não informados",
-                    content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = ResponseError.class))),
             @APIResponse(responseCode = "500", description = "Erro interno")})
     public Response disable(@PathParam("id") long id) {
         try {
