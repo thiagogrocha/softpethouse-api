@@ -27,7 +27,6 @@ public class BusinessEntity extends EntityBase {
     private String description;
 
     @Column(nullable = false)
-    @ColumnDefault(value = "'S'")
     private String active;
 
     public BusinessEntity(String name, String description) {
@@ -35,7 +34,8 @@ public class BusinessEntity extends EntityBase {
         this.description = description;
     }
 
-/*    private void prePersist() {
+    @PrePersist
+    private void prePersist() {
         setActive("S");
-    }*/
+    }
 }
