@@ -3,6 +3,8 @@ package br.com.softpethouse.api.business.entity;
 import br.com.softpethouse.api.commom.EntityBase;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Check;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 
@@ -11,6 +13,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "business")
 @SequenceGenerator(name = "BusinessSeq", sequenceName = "seq_business", allocationSize = 1)
+@Check(constraints = "upper(active) in ('S', 'N')")
 public class BusinessEntity extends EntityBase {
 
     @Id
@@ -23,8 +26,16 @@ public class BusinessEntity extends EntityBase {
     @Column(nullable = false)
     private String description;
 
+    @Column(nullable = false)
+    @ColumnDefault(value = "'S'")
+    private String active;
+
     public BusinessEntity(String name, String description) {
         this.name = name;
         this.description = description;
     }
+
+/*    private void prePersist() {
+        setActive("S");
+    }*/
 }
