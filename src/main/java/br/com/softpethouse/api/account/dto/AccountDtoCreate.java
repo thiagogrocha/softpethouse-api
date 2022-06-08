@@ -1,7 +1,10 @@
 package br.com.softpethouse.api.account.dto;
 
 import br.com.softpethouse.api.user.dto.UserDto;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 
@@ -10,6 +13,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Schema(name = "Account", description = "Account dto to create")
 public class AccountDtoCreate {
 

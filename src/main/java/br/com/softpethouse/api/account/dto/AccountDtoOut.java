@@ -3,52 +3,51 @@ package br.com.softpethouse.api.account.dto;
 import br.com.softpethouse.api.account.entity.AccountEntity;
 import br.com.softpethouse.api.business.dto.BusinessDto;
 import br.com.softpethouse.api.user.dto.UserDto;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
-import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 
+import javax.json.bind.annotation.JsonbPropertyOrder;
 
 @Data
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @Schema(name = "Account", description = "Account dto out")
+@JsonbPropertyOrder({"id", "active", "username", "email", "user", "typeAccount", "business"})
 public class AccountDtoOut {
 
-    @Schema(title = "User")
-    @Parameter(description = "User")
+    @Schema(title = "Id Account", implementation = Long.class)
+    private long id;
+
+    @Schema(title = "User", implementation = UserDto.class)
     private UserDto user;
 
-    @Schema(title = "Id TypeAccount")
-    @Parameter(description = "IdTypeAccount")
+    @Schema(title = "Id TypeAccount", implementation = TypeAccountDto.class)
     private TypeAccountDto typeAccount;
 
-    @Schema(title = "Id Business")
-    @Parameter(description = "IdBusiness")
+    @Schema(title = "Id Business", implementation = BusinessDto.class)
     private BusinessDto business;
 
-    @Schema(title = "Username")
-    @Parameter(description = "Username")
+    @Schema(title = "Username", implementation = String.class)
     private String username;
 
-    @Schema(title = "E-mail")
-    @Parameter(description = "Email")
+    @Schema(title = "E-mail", implementation = String.class)
     private String email;
 
-    @Schema(title = "Active")
-    @Parameter(description = "Active")
+    @Schema(title = "Active", implementation = String.class)
     private String active;
 
-    public AccountDtoOut(UserDto user, TypeAccountDto typeAccount, BusinessDto business, String username, String email, String active) {
-        this.user = user;
-        this.typeAccount = typeAccount;
-        this.business = business;
-        this.username = username;
-        this.email = email;
-        this.active = active;
-    }
-
     public static AccountDtoOut fromEntity(AccountEntity entity){
-        return new AccountDtoOut(UserDto.fromEntity(entity.getUser()), TypeAccountDto.fromEntity(entity.getTypeAccount()), BusinessDto.fromEntity(entity.getBusiness()), entity.getUsername(), entity.getPassword(), entity.getActive());
+        return AccountDtoOut.builder()
+                .id(entity.getId())
+                .user(UserDto.fromEntity(entity.getUser()))
+                .typeAccount(TypeAccountDto.fromEntity(entity.getTypeAccount()))
+                .business(BusinessDto.fromEntity(entity.getBusiness()))
+                .username(entity.getUsername())
+                .active(entity.getActive()).build();
     }
 
 }

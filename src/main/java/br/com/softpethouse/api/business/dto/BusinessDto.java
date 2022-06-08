@@ -1,16 +1,22 @@
 package br.com.softpethouse.api.business.dto;
 
 import br.com.softpethouse.api.business.entity.BusinessEntity;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 
+import javax.json.bind.annotation.JsonbPropertyOrder;
 import javax.validation.constraints.NotNull;
 
 @Data
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 @Schema(name = "Business", description = "Business dto in")
+@JsonbPropertyOrder({"name", "description"})
 public class BusinessDto {
 
     @NotNull(message = "O nome é obrigatório!")
@@ -23,12 +29,7 @@ public class BusinessDto {
     @Parameter(description = "Descrição parameter")
     private String description;
 
-    public BusinessDto(String name, String description) {
-        this.name = name;
-        this.description = description;
-    }
-
     public static BusinessDto fromEntity(BusinessEntity entity) {
-            return new BusinessDto(entity.getName(), entity.getDescription());
+            return BusinessDto.builder().name(entity.getName()).description(entity.getDescription()).build();
     }
 }

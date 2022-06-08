@@ -3,15 +3,18 @@ package br.com.softpethouse.api.account.entity;
 import br.com.softpethouse.api.business.entity.BusinessEntity;
 import br.com.softpethouse.api.commom.EntityBase;
 import br.com.softpethouse.api.user.entity.UserEntity;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Check;
-import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 
 @Data
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "accounts")
 @SequenceGenerator(name = "AccountsSeq", sequenceName = "seq_accounts", allocationSize = 1)
@@ -44,19 +47,6 @@ public class AccountEntity extends EntityBase {
     private String password;
 
     @Column(nullable = false)
-    @ColumnDefault(value = "'S'")
     private String active;
 
-    public AccountEntity(UserEntity user, TypeAccountEntity typeAccount, BusinessEntity business, String username, String email, String password) {
-        this.user = user;
-        this.typeAccount = typeAccount;
-        this.business = business;
-        this.username = username;
-        this.email = email;
-        this.password = password;
-    }
-
-//    private void prePersist() {
-//        setActive("S");
-//    }
 }
