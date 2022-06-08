@@ -7,4 +7,12 @@ import javax.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class UserService implements PanacheRepository<UserEntity> {
+
+    public UserEntity create(String name, int age) {
+        UserEntity entity = new UserEntity(name, age);
+        persist(entity);
+
+        return entity;
+    }
+
 }
