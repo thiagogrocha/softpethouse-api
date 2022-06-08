@@ -3,7 +3,6 @@ package br.com.softpethouse.api.account.service;
 import br.com.softpethouse.api.Resources;
 import br.com.softpethouse.api.account.dto.TypeAccountDto;
 import br.com.softpethouse.api.account.entity.TypeAccountEntity;
-import br.com.softpethouse.api.account.resource.TypeAccountResource;
 import br.com.softpethouse.api.commom.validation.ResponseError;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
@@ -35,7 +34,7 @@ public class TypeAccountService implements PanacheRepository<TypeAccountEntity> 
                     .createFromValidation(violations)
                     .withStatusCode(ResponseError.UNPROCESSABLE_ENTITY_STATUS);
 
-        TypeAccountEntity entity = new TypeAccountEntity(dto.getName(), dto.getDescription());
+        TypeAccountEntity entity = TypeAccountEntity.builder().name(dto.getName()).description(dto.getDescription()).build();
         persist(entity);
 
         return Response.created(UriBuilder.fromPath(Resources.TYPEACCOUNT).path(entity.getId().toString()).build()).build();
