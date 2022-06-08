@@ -9,7 +9,8 @@ import br.com.softpethouse.api.business.entity.BusinessEntity;
 import br.com.softpethouse.api.account.entity.TypeAccountEntity;
 import br.com.softpethouse.api.commom.validation.ResponseError;
 import br.com.softpethouse.api.commom.validation.ResponseMsg;
-import br.com.softpethouse.api.user.entity.UserEntity;
+import br.com.softpethouse.api.user.dto.UserDto;
+import br.com.softpethouse.api.user.service.UserService;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import io.quarkus.panache.common.Sort;
 
@@ -28,15 +29,15 @@ import java.util.stream.Collectors;
 public class AccountService implements PanacheRepository<AccountEntity> {
 
     private Validator validator;
-    private AccountService accountService;
+    private UserService userService;
     private TypeAccountService typeAccountService;
     private BusinessService businessService;
     private String notFound;
 
     @Inject
-    public AccountService(Validator validator, AccountService accountService, TypeAccountService typeAccountService, BusinessService businessService) {
+    public AccountService(Validator validator, UserService userService, TypeAccountService typeAccountService, BusinessService businessService) {
         this.validator = validator;
-        this.accountService = accountService;
+        this.userService = userService;
         this.typeAccountService = typeAccountService;
         this.businessService = businessService;
         this.notFound = "Conta não encontrada!";
@@ -50,7 +51,7 @@ public class AccountService implements PanacheRepository<AccountEntity> {
     }
 
     public Response accounts(long id) {
-        AccountEntity account = accountService.findById(id);
+        AccountEntity account = findById(id);
 
         if (account == null)
             return Response.status(Response.Status.NOT_FOUND.getStatusCode()).entity(new ResponseMsg(notFound)).build();
@@ -59,15 +60,19 @@ public class AccountService implements PanacheRepository<AccountEntity> {
     }
 
     public Response create(AccountDtoCreate dto) {
-        Set<ConstraintViolation<AccountDtoCreate>> violations = validator.validate(dto);
+        Set<ConstraintViolation<AccountDtoCreate>> violationsAcc = validator.validate(dto);
 
-        if (!violations.isEmpty())
+        if (!violationsAcc.isEmpty())
             return ResponseError
-                    .createFromValidation(violations)
+                    .createFromValidation(violationsAcc)
                     .withStatusCode(ResponseError.UNPROCESSABLE_ENTITY_STATUS);
 
-        if (dto.getUser() == null)
-            return Response.status(Response.Status.NOT_FOUND.getStatusCode()).entity(new ResponseMsg("Usuário não encontrada!")).build();
+        Set<ConstraintViolation<UserDto>> violationsUser = validator.validate(dto.getUser());
+
+        if (!violationsUser.isEmpty())
+            return ResponseError
+                    .createFromValidation(violationsUser)
+                    .withStatusCode(ResponseError.UNPROCESSABLE_ENTITY_STATUS);
 
         TypeAccountEntity typeAccount = typeAccountService.findById(dto.getIdTypeAccount());
 
@@ -79,16 +84,21 @@ public class AccountService implements PanacheRepository<AccountEntity> {
         if (business == null)
             return Response.status(Response.Status.NOT_FOUND.getStatusCode()).entity(new ResponseMsg("Negócio não encontrado!")).build();
 
-        UserEntity user = new UserEntity(dto.getUser().getName(), dto.getUser().getAge());
+        AccountEntity entity = AccountEntity.builder()
+                .user(userService.create(dto.getUser().getName(), dto.getUser().getAge()))
+                .typeAccount(typeAccount)
+                .business(business)
+                .username(dto.getUsername())
+                .email(dto.getEmail())
+                .password(dto.getPassword()).build();
 
-        AccountEntity entity = new AccountEntity(user, typeAccount, business, dto.getUsername(), dto.getEmail(), dto.getPassword());
         persist(entity);
 
         return Response.created(UriBuilder.fromPath(Resources.ACCOUNT).path(entity.getId().toString()).build()).build();
     }
 
     public Response update(long id, AccountDtoUpdate dto) {
-        AccountEntity account = accountService.findById(id);
+        AccountEntity account = findById(id);
 
         if (account == null)
             return Response.status(Response.Status.NOT_FOUND.getStatusCode()).entity(new ResponseMsg(notFound)).build();
@@ -119,7 +129,7 @@ public class AccountService implements PanacheRepository<AccountEntity> {
     }
 
     public Response disable(long id) {
-        AccountEntity account = accountService.findById(id);
+        AccountEntity account = findById(id);
 
         if (account == null)
             return Response.status(Response.Status.NOT_FOUND.getStatusCode()).entity(new ResponseMsg(notFound)).build();
