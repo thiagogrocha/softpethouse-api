@@ -1,6 +1,7 @@
 package br.com.softpethouse.api.commom;
 
 import lombok.Data;
+import org.hibernate.annotations.Check;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 
 @Data
 @MappedSuperclass
+@Check(constraints = "upper(active) in ('S', 'N')")
 public abstract class EntityBase{
 
     @Column(updatable = false)
@@ -18,5 +20,8 @@ public abstract class EntityBase{
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    @Column(nullable = false)
+    private String active;
 
 }
