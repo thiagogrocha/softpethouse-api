@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Check;
 
 import javax.persistence.*;
 
@@ -18,7 +17,6 @@ import javax.persistence.*;
 @Entity
 @Table(name = "accounts")
 @SequenceGenerator(name = "AccountsSeq", sequenceName = "seq_accounts", allocationSize = 1)
-@Check(constraints = "upper(active) in ('S', 'N')")
 public class AccountEntity extends EntityBase {
 
     @Id
@@ -45,8 +43,5 @@ public class AccountEntity extends EntityBase {
 
     @Column(nullable = false)
     private String password;
-
-    @Column(nullable = false)
-    private String active;
 
 }
