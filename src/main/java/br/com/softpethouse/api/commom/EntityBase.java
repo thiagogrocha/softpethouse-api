@@ -7,6 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.PrePersist;
 import java.time.LocalDateTime;
 
 @Data
@@ -23,5 +24,10 @@ public abstract class EntityBase{
 
     @Column(nullable = false)
     private String active;
+
+    @PrePersist
+    private void prePersist() {
+        setActive("S");
+    }
 
 }
