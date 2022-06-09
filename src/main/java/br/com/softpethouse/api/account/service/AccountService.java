@@ -52,7 +52,7 @@ public class AccountService implements PanacheRepository<AccountEntity> {
         AccountEntity entity = findById(id);
 
         if (entity == null)
-            return Response.status(Response.Status.NOT_FOUND.getStatusCode()).build();
+            return Response.status(Response.Status.NOT_FOUND).build();
 
         return Response.ok().entity(AccountDtoOut.fromEntity(entity)).build();
     }
@@ -75,12 +75,12 @@ public class AccountService implements PanacheRepository<AccountEntity> {
         TypeAccountEntity typeAccount = typeAccountService.findById(dto.getIdTypeAccount());
 
         if (typeAccount == null)
-            return Response.status(Response.Status.NOT_FOUND.getStatusCode()).entity(new ResponseMsg("Tipo de Conta não encontrada!")).build();
+            return Response.status(Response.Status.NOT_FOUND).entity(new ResponseMsg("Tipo de Conta não encontrada!")).build();
 
         BusinessEntity business = businessService.findById(dto.getIdBusiness());
 
         if (business == null)
-            return Response.status(Response.Status.NOT_FOUND.getStatusCode()).entity(new ResponseMsg("Negócio não encontrado!")).build();
+            return Response.status(Response.Status.NOT_FOUND).entity(new ResponseMsg("Negócio não encontrado!")).build();
 
         AccountEntity entity = AccountEntity.builder()
                 .user(userService.create(dto.getUser().getName(), dto.getUser().getAge()))
@@ -99,7 +99,7 @@ public class AccountService implements PanacheRepository<AccountEntity> {
         AccountEntity account = findById(id);
 
         if (account == null)
-            return Response.status(Response.Status.NOT_FOUND.getStatusCode()).entity(new ResponseMsg("Conta não encontrada!")).build();
+            return Response.status(Response.Status.NOT_FOUND).entity(new ResponseMsg("Conta não encontrada!")).build();
 
         Set<ConstraintViolation<AccountDtoUpdate>> violations = validator.validate(dto);
 
@@ -111,29 +111,29 @@ public class AccountService implements PanacheRepository<AccountEntity> {
         TypeAccountEntity typeAccount = typeAccountService.findById(dto.getIdTypeAccount());
 
         if (typeAccount == null)
-            return Response.status(Response.Status.NOT_FOUND.getStatusCode()).entity(new ResponseMsg("Tipo de Conta não encontrada!")).build();
+            return Response.status(Response.Status.NOT_FOUND).entity(new ResponseMsg("Tipo de Conta não encontrada!")).build();
 
         BusinessEntity business = businessService.findById(dto.getIdBusiness());
 
         if (business == null)
-            return Response.status(Response.Status.NOT_FOUND.getStatusCode()).entity(new ResponseMsg("Negócio não encontrado!")).build();
+            return Response.status(Response.Status.NOT_FOUND).entity(new ResponseMsg("Negócio não encontrado!")).build();
 
         account.setTypeAccount(typeAccount);
         account.setBusiness(business);
         account.setUsername(dto.getUserName());
         account.setPassword(dto.getPassword());
 
-        return Response.status(Response.Status.OK.getStatusCode()).build();
+        return Response.ok().build();
     }
 
     public Response disable(long id) {
         AccountEntity entity = findById(id);
 
         if (entity == null)
-            return Response.status(Response.Status.NOT_FOUND.getStatusCode()).build();
+            return Response.status(Response.Status.NOT_FOUND).build();
 
         entity.setActive("N");
 
-        return Response.status(Response.Status.NO_CONTENT.getStatusCode()).build();
+        return Response.noContent().build();
     }
 }
