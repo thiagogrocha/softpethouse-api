@@ -32,7 +32,6 @@ public class AccountService implements PanacheRepository<AccountEntity> {
     private UserService userService;
     private TypeAccountService typeAccountService;
     private BusinessService businessService;
-    private String notFound;
 
     @Inject
     public AccountService(Validator validator, UserService userService, TypeAccountService typeAccountService, BusinessService businessService) {
@@ -40,7 +39,6 @@ public class AccountService implements PanacheRepository<AccountEntity> {
         this.userService = userService;
         this.typeAccountService = typeAccountService;
         this.businessService = businessService;
-        this.notFound = "Conta não encontrada!";
     }
 
     public Response accounts() {
@@ -54,7 +52,7 @@ public class AccountService implements PanacheRepository<AccountEntity> {
         AccountEntity entity = findById(id);
 
         if (entity == null)
-            return Response.status(Response.Status.NOT_FOUND.getStatusCode()).entity(new ResponseMsg(notFound)).build();
+            return Response.status(Response.Status.NOT_FOUND.getStatusCode()).build();
 
         return Response.ok().entity(AccountDtoOut.fromEntity(entity)).build();
     }
@@ -101,7 +99,7 @@ public class AccountService implements PanacheRepository<AccountEntity> {
         AccountEntity account = findById(id);
 
         if (account == null)
-            return Response.status(Response.Status.NOT_FOUND.getStatusCode()).entity(new ResponseMsg(notFound)).build();
+            return Response.status(Response.Status.NOT_FOUND.getStatusCode()).entity(new ResponseMsg("Conta não encontrada!")).build();
 
         Set<ConstraintViolation<AccountDtoUpdate>> violations = validator.validate(dto);
 
@@ -125,17 +123,17 @@ public class AccountService implements PanacheRepository<AccountEntity> {
         account.setUsername(dto.getUserName());
         account.setPassword(dto.getPassword());
 
-        return Response.status(Response.Status.OK.getStatusCode()).entity(new ResponseMsg("Conta atualizada!")).build();
+        return Response.status(Response.Status.OK.getStatusCode()).build();
     }
 
     public Response disable(long id) {
         AccountEntity entity = findById(id);
 
         if (entity == null)
-            return Response.status(Response.Status.NOT_FOUND.getStatusCode()).entity(new ResponseMsg(notFound)).build();
+            return Response.status(Response.Status.NOT_FOUND.getStatusCode()).build();
 
         entity.setActive("N");
 
-        return Response.status(Response.Status.NO_CONTENT.getStatusCode()).entity(new ResponseMsg("Conta desativada com sucesso!")).build();
+        return Response.status(Response.Status.NO_CONTENT.getStatusCode()).build();
     }
 }
