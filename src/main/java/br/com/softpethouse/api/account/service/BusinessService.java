@@ -52,7 +52,10 @@ public class BusinessService implements PanacheRepository<BusinessEntity> {
                     .createFromValidation(violations)
                     .withStatusCode(ResponseError.UNPROCESSABLE_ENTITY_STATUS);
 
-        BusinessEntity entity = new BusinessEntity(dto.getName(), dto.getDescription());
+        BusinessEntity entity = BusinessEntity.builder()
+                .name(dto.getName())
+                .description(dto.getDescription()).build();
+
         persist(entity);
 
         return Response.created(UriBuilder.fromPath(Resources.BUSINESS).path(entity.getId().toString()).build()).build();
