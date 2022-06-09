@@ -51,12 +51,12 @@ public class AccountService implements PanacheRepository<AccountEntity> {
     }
 
     public Response accounts(long id) {
-        AccountEntity account = findById(id);
+        AccountEntity entity = findById(id);
 
-        if (account == null)
+        if (entity == null)
             return Response.status(Response.Status.NOT_FOUND.getStatusCode()).entity(new ResponseMsg(notFound)).build();
 
-        return Response.ok().entity(AccountDtoOut.fromEntity(account)).build();
+        return Response.ok().entity(AccountDtoOut.fromEntity(entity)).build();
     }
 
     public Response create(AccountDtoCreate dto) {
@@ -129,12 +129,12 @@ public class AccountService implements PanacheRepository<AccountEntity> {
     }
 
     public Response disable(long id) {
-        AccountEntity account = findById(id);
+        AccountEntity entity = findById(id);
 
-        if (account == null)
+        if (entity == null)
             return Response.status(Response.Status.NOT_FOUND.getStatusCode()).entity(new ResponseMsg(notFound)).build();
 
-        account.setActive("N");
+        entity.setActive("N");
 
         return Response.status(Response.Status.NO_CONTENT.getStatusCode()).entity(new ResponseMsg("Conta desativada com sucesso!")).build();
     }
