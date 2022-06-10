@@ -7,6 +7,7 @@ import br.com.softpethouse.api.account.dto.AccountDtoUpdate;
 import br.com.softpethouse.api.account.entity.AccountEntity;
 import br.com.softpethouse.api.business.entity.BusinessEntity;
 import br.com.softpethouse.api.account.entity.TypeAccountEntity;
+import br.com.softpethouse.api.business.service.BusinessService;
 import br.com.softpethouse.api.commom.validation.ResponseError;
 import br.com.softpethouse.api.commom.validation.ResponseMsg;
 import br.com.softpethouse.api.user.dto.UserDto;
