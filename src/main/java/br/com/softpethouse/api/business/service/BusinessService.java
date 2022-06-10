@@ -1,9 +1,9 @@
-package br.com.softpethouse.api.account.service;
+package br.com.softpethouse.api.business.service;
 
 import br.com.softpethouse.api.Resources;
 import br.com.softpethouse.api.business.dto.BusinessDto;
-import br.com.softpethouse.api.business.dto.BusinessDtoOut;
 import br.com.softpethouse.api.business.entity.BusinessEntity;
+import br.com.softpethouse.api.business.mapper.BusinessMapper;
 import br.com.softpethouse.api.commom.validation.ResponseError;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
@@ -15,7 +15,6 @@ import javax.validation.Validator;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Transactional
 @ApplicationScoped
@@ -23,25 +22,25 @@ public class BusinessService implements PanacheRepository<BusinessEntity> {
 
     private Validator validator;
 
+    private BusinessMapper mapper;
+
     @Inject
-    public BusinessService(Validator validator) {
+    public BusinessService(Validator validator, BusinessMapper mapper) {
         this.validator = validator;
+        this.mapper = mapper;
     }
 
     public Response business() {
-        return Response.ok(findAll()
-                .stream()
-                .map(BusinessDtoOut::fromEntity)
-                .collect(Collectors.toList())).build();
+        return Response.ok(mapper.toDtoList(findAll().list())).build();
     }
 
     public Response business(long id) {
-        BusinessEntity business = findById(id);
+        BusinessEntity entity = findById(id);
 
-        if (business == null)
-            return Response.status(Response.Status.NOT_FOUND.getStatusCode()).build();
+        if (entity == null)
+            return Response.status(Response.Status.NOT_FOUND).build();
 
-        return Response.ok().entity(BusinessDtoOut.fromEntity(business)).build();
+        return Response.ok().entity(mapper.toDto(entity)).build();
     }
 
     public Response create(BusinessDto dto) {
@@ -52,9 +51,7 @@ public class BusinessService implements PanacheRepository<BusinessEntity> {
                     .createFromValidation(violations)
                     .withStatusCode(ResponseError.UNPROCESSABLE_ENTITY_STATUS);
 
-        BusinessEntity entity = BusinessEntity.builder()
-                .name(dto.getName())
-                .description(dto.getDescription()).build();
+        BusinessEntity entity = mapper.toEntity(dto);
 
         persist(entity);
 
@@ -62,10 +59,10 @@ public class BusinessService implements PanacheRepository<BusinessEntity> {
     }
 
     public Response update(long id, BusinessDto dto) {
-        BusinessEntity business = findById(id);
+        BusinessEntity entity = findById(id);
 
-        if (business == null)
-            return Response.status(Response.Status.NOT_FOUND.getStatusCode()).build();
+        if (entity == null)
+            return Response.status(Response.Status.NOT_FOUND).build();
 
         Set<ConstraintViolation<BusinessDto>> violations = validator.validate(dto);
 
@@ -74,19 +71,18 @@ public class BusinessService implements PanacheRepository<BusinessEntity> {
                     .createFromValidation(violations)
                     .withStatusCode(ResponseError.UNPROCESSABLE_ENTITY_STATUS);
 
-        business.setName(dto.getName());
-        business.setDescription(dto.getDescription());
+        mapper.updateEntityFromDto(dto, entity);
 
         return Response.ok().build();
     }
 
     public Response disable(long id) {
-        BusinessEntity business = findById(id);
+        BusinessEntity entity = findById(id);
 
-        if (business == null)
-            return Response.status(Response.Status.NOT_FOUND.getStatusCode()).build();
+        if (entity == null)
+            return Response.status(Response.Status.NOT_FOUND).build();
 
-        business.setActive("N");
+        entity.setActive("N");
 
         return Response.noContent().build();
     }
