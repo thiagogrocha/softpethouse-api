@@ -1,11 +1,11 @@
 package br.com.softpethouse.api.business.resource;
 
+import lombok.extern.slf4j.Slf4j;
 import br.com.softpethouse.api.Resources;
 import br.com.softpethouse.api.business.dto.BusinessDto;
 import br.com.softpethouse.api.business.service.BusinessService;
 import br.com.softpethouse.api.business.dto.BusinessDtoOut;
 import br.com.softpethouse.api.commom.validation.ResponseError;
-import lombok.extern.slf4j.Slf4j;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
@@ -14,6 +14,7 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -24,12 +25,8 @@ import javax.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 public class BusinessResource {
 
-    private BusinessService service;
-
     @Inject
-    public BusinessResource(BusinessService service) {
-        this.service = service;
-    }
+    private BusinessService service;
 
     @GET
     @Operation(summary = "Negócios", description = "Lista Negócios, sejam Lojas ou Clínicas Veterinárias")
@@ -70,7 +67,7 @@ public class BusinessResource {
             @APIResponse(responseCode = "201", description = "Criado"),
             @APIResponse(responseCode = "422", description = "Objeto de entrada inválido",content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = ResponseError.class))),
             @APIResponse(responseCode = "500", description = "Erro interno", content = @Content(mediaType = MediaType.APPLICATION_JSON))})
-    public Response create(BusinessDto dto) {
+    public Response create(@Valid BusinessDto dto) {
         try {
             log.info("Creating Business.");
             return service.create(dto);
@@ -88,7 +85,7 @@ public class BusinessResource {
             @APIResponse(responseCode = "404", description = "Negócio não encontrado"),
             @APIResponse(responseCode = "422", description = "Objeto de entrada inválido", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = ResponseError.class))),
             @APIResponse(responseCode = "500", description = "Erro interno", content = @Content(mediaType = MediaType.APPLICATION_JSON))})
-    public Response update(@PathParam("id") long id, BusinessDto dto) {
+    public Response update(@PathParam("id") long id, @Valid BusinessDto dto) {
         try {
             log.info("Updating Business.");
             return service.update(id, dto);

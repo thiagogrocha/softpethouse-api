@@ -1,5 +1,6 @@
 package br.com.softpethouse.api.account.resource;
 
+import lombok.extern.slf4j.Slf4j;
 import br.com.softpethouse.api.Resources;
 import br.com.softpethouse.api.account.dto.AccountDtoUpdate;
 import br.com.softpethouse.api.account.dto.TypeAccountDto;
@@ -12,21 +13,19 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+@Slf4j
 @Path(Resources.TYPEACCOUNT)
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class TypeAccountResource {
 
-    private TypeAccountService service;
-
     @Inject
-    public TypeAccountResource(TypeAccountService service) {
-        this.service = service;
-    }
+    private TypeAccountService service;
 
     @GET
     @Operation(summary = "Tipos de Conta de Usuário", description = "Lista todos os tipos de Conta de Usuário")
@@ -39,7 +38,7 @@ public class TypeAccountResource {
             return service.typesAccount();
         } catch (Exception e) {
             e.printStackTrace();
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode()).entity(e).build();
+            return Response.serverError().entity(e).build();
         }
     }
 
@@ -56,7 +55,7 @@ public class TypeAccountResource {
             return service.typesAccount(id);
         } catch (Exception e) {
             e.printStackTrace();
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode()).entity(e).build();
+            return Response.serverError().entity(e).build();
         }
     }
 
@@ -68,12 +67,12 @@ public class TypeAccountResource {
             @APIResponse(responseCode = "422", description = "Campos obrigatórios não informados",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = ResponseError.class))),
             @APIResponse(responseCode = "500", description = "Erro interno")})
-    public Response create(TypeAccountDto dto) {
+    public Response create(@Valid TypeAccountDto dto) {
         try {
             return service.create(dto);
         } catch (Exception e) {
             e.printStackTrace();
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode()).entity(e).build();
+            return Response.serverError().entity(e).build();
         }
     }
 
@@ -87,12 +86,12 @@ public class TypeAccountResource {
             @APIResponse(responseCode = "422", description = "Campos obrigatórios não informados",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = ResponseError.class))),
             @APIResponse(responseCode = "500", description = "Erro interno")})
-    public Response update(@PathParam("id") long id, TypeAccountDto dto) {
+    public Response update(@PathParam("id") long id, @Valid TypeAccountDto dto) {
         try {
             return service.update(id, dto);
         } catch (Exception e) {
             e.printStackTrace();
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode()).entity(e).build();
+            return Response.serverError().entity(e).build();
         }
     }
 
@@ -109,7 +108,7 @@ public class TypeAccountResource {
             return service.disable(id);
         } catch (Exception e) {
             e.printStackTrace();
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode()).entity(e).build();
+            return Response.serverError().entity(e).build();
         }
     }
 

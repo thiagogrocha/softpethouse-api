@@ -1,5 +1,6 @@
 package br.com.softpethouse.api.account.resource;
 
+import lombok.extern.slf4j.Slf4j;
 import br.com.softpethouse.api.Resources;
 import br.com.softpethouse.api.account.dto.AccountDtoCreate;
 import br.com.softpethouse.api.account.dto.AccountDtoOut;
@@ -13,34 +14,32 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+@Slf4j
 @Path(Resources.ACCOUNT)
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class AccountResource {
 
-    private AccountService service;
-
     @Inject
-    public AccountResource(AccountService service) {
-        this.service = service;
-    }
+    AccountService service;
 
     @GET
     @Operation(summary = "Contas de Usuário", description = "Lista todas as Contas de Usuário")
     @APIResponses(value = {
             @APIResponse(responseCode = "200", description = "Sucesso",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = AccountDtoOut[].class))),
-            @APIResponse(responseCode = "500", description = "Erro interno")}    )
-    public Response accounts(){
-        try{
+            @APIResponse(responseCode = "500", description = "Erro interno")})
+    public Response accounts() {
+        try {
             return service.accounts();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode()).entity(e).build();
+            return Response.serverError().entity(e).build();
         }
     }
 
@@ -51,13 +50,13 @@ public class AccountResource {
             @APIResponse(responseCode = "200", description = "Sucesso",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = AccountDtoOut.class))),
             @APIResponse(responseCode = "403", description = "Conta de Usuário não encontrada"),
-            @APIResponse(responseCode = "500", description = "Erro interno")}    )
-    public Response accounts(@PathParam("id") long id){
-        try{
+            @APIResponse(responseCode = "500", description = "Erro interno")})
+    public Response accounts(@PathParam("id") long id) {
+        try {
             return service.accounts(id);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode()).entity(e).build();
+            return Response.serverError().entity(e).build();
         }
     }
 
@@ -69,12 +68,12 @@ public class AccountResource {
             @APIResponse(responseCode = "422", description = "Campos obrigatórios não informados",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = ResponseError.class))),
             @APIResponse(responseCode = "500", description = "Erro interno")})
-    public Response create(AccountDtoCreate dto) {
+    public Response create(@Valid AccountDtoCreate dto) {
         try {
             return service.create(dto);
         } catch (Exception e) {
             e.printStackTrace();
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode()).entity(e).build();
+            return Response.serverError().entity(e).build();
         }
     }
 
@@ -88,12 +87,12 @@ public class AccountResource {
             @APIResponse(responseCode = "422", description = "Campos obrigatórios não informados",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = ResponseError.class))),
             @APIResponse(responseCode = "500", description = "Erro interno")})
-    public Response update(@PathParam("id") long id, AccountDtoUpdate dto) {
+    public Response update(@PathParam("id") long id, @Valid AccountDtoUpdate dto) {
         try {
             return service.update(id, dto);
         } catch (Exception e) {
             e.printStackTrace();
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode()).entity(e).build();
+            return Response.serverError().entity(e).build();
         }
     }
 
@@ -110,7 +109,7 @@ public class AccountResource {
             return service.disable(id);
         } catch (Exception e) {
             e.printStackTrace();
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode()).entity(e).build();
+            return Response.serverError().entity(e).build();
         }
     }
 
