@@ -1,9 +1,9 @@
-package br.com.softpethouse.api.adoption;
+package br.com.softpethouse.api.adoption.entity;
 
+import lombok.Data;
 import br.com.softpethouse.api.commom.EntityBase;
 import br.com.softpethouse.api.pet.entity.PetEntity;
 import br.com.softpethouse.api.user.entity.UserEntity;
-import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -34,7 +34,7 @@ public class AdoptionEntity extends EntityBase {
     private LocalDateTime dateTime;
 
     @PrePersist
-    public void prePersist() {
+    private void setDefaultDateTime() {
         if (dateTime == null)
             dateTime = LocalDateTime.now();
     }
