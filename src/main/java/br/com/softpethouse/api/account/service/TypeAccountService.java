@@ -2,25 +2,17 @@ package br.com.softpethouse.api.account.service;
 
 import lombok.extern.slf4j.Slf4j;
 import br.com.softpethouse.api.Resources;
-import br.com.softpethouse.api.account.dto.AccountDtoOut;
 import br.com.softpethouse.api.account.dto.TypeAccountDto;
-import br.com.softpethouse.api.account.entity.AccountEntity;
 import br.com.softpethouse.api.account.entity.TypeAccountEntity;
 import br.com.softpethouse.api.account.mapper.TypeAccountMapper;
-import br.com.softpethouse.api.commom.validation.ResponseError;
-import br.com.softpethouse.api.commom.validation.ResponseMsg;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import io.quarkus.panache.common.Sort;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Transactional
@@ -28,7 +20,7 @@ import java.util.stream.Collectors;
 public class TypeAccountService implements PanacheRepository<TypeAccountEntity> {
 
     @Inject
-    private TypeAccountMapper mapper;
+    TypeAccountMapper mapper;
 
     public Response typesAccount() {
         return Response.ok(mapper.toDtoList(findAll(Sort.by("name", Sort.Direction.Ascending)).list())).build();

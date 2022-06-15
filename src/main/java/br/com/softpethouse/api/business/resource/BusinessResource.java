@@ -26,7 +26,7 @@ import javax.ws.rs.core.Response;
 public class BusinessResource {
 
     @Inject
-    private BusinessService service;
+    BusinessService service;
 
     @GET
     @Operation(summary = "Negócios", description = "Lista Negócios, sejam Lojas ou Clínicas Veterinárias")

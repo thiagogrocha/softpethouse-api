@@ -2,7 +2,6 @@ package br.com.softpethouse.api.account.resource;
 
 import lombok.extern.slf4j.Slf4j;
 import br.com.softpethouse.api.Resources;
-import br.com.softpethouse.api.account.dto.AccountDtoUpdate;
 import br.com.softpethouse.api.account.dto.TypeAccountDto;
 import br.com.softpethouse.api.account.service.TypeAccountService;
 import br.com.softpethouse.api.commom.validation.ResponseError;
@@ -25,7 +24,7 @@ import javax.ws.rs.core.Response;
 public class TypeAccountResource {
 
     @Inject
-    private TypeAccountService service;
+    TypeAccountService service;
 
     @GET
     @Operation(summary = "Tipos de Conta de Usuário", description = "Lista todos os tipos de Conta de Usuário")
