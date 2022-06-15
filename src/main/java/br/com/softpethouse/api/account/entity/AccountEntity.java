@@ -1,19 +1,13 @@
 package br.com.softpethouse.api.account.entity;
 
+import lombok.Data;
 import br.com.softpethouse.api.business.entity.BusinessEntity;
 import br.com.softpethouse.api.commom.EntityBase;
 import br.com.softpethouse.api.user.entity.UserEntity;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "accounts")
 @SequenceGenerator(name = "AccountsSeq", sequenceName = "seq_accounts", allocationSize = 1)

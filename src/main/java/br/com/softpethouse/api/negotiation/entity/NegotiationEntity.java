@@ -1,9 +1,9 @@
 package br.com.softpethouse.api.negotiation.entity;
 
+import lombok.Data;
 import br.com.softpethouse.api.commom.EntityBase;
 import br.com.softpethouse.api.product.entity.ProductEntity;
 import br.com.softpethouse.api.user.entity.UserEntity;
-import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -33,7 +33,7 @@ public class NegotiationEntity extends EntityBase {
     private LocalDateTime dateTime;
 
     @PrePersist
-    public void prePersist() {
+    private void setDefaultDateTime() {
         if (dateTime == null)
             dateTime = LocalDateTime.now();
     }

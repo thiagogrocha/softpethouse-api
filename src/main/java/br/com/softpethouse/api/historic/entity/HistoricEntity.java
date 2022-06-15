@@ -1,8 +1,8 @@
 package br.com.softpethouse.api.historic.entity;
 
+import lombok.Data;
 import br.com.softpethouse.api.commom.EntityBase;
 import br.com.softpethouse.api.pet.entity.PetEntity;
-import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -28,7 +28,7 @@ public class HistoricEntity extends EntityBase {
     private LocalDateTime dateTime;
 
     @PrePersist
-    public void prePersist() {
+    private void setDefaultDateTime() {
         if (dateTime == null)
             dateTime = LocalDateTime.now();
     }

@@ -1,8 +1,8 @@
 package br.com.softpethouse.api.product.entity;
 
+import lombok.Data;
 import br.com.softpethouse.api.business.entity.BusinessEntity;
 import br.com.softpethouse.api.commom.EntityBase;
-import lombok.Data;
 
 import javax.persistence.*;
 
