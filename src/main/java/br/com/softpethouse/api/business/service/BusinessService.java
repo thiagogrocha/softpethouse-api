@@ -1,5 +1,6 @@
 package br.com.softpethouse.api.business.service;
 
+import lombok.extern.slf4j.Slf4j;
 import br.com.softpethouse.api.Resources;
 import br.com.softpethouse.api.business.dto.BusinessDto;
 import br.com.softpethouse.api.business.entity.BusinessEntity;
@@ -16,19 +17,13 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import java.util.Set;
 
+@Slf4j
 @Transactional
 @ApplicationScoped
 public class BusinessService implements PanacheRepository<BusinessEntity> {
 
-    private Validator validator;
-
-    private BusinessMapper mapper;
-
     @Inject
-    public BusinessService(Validator validator, BusinessMapper mapper) {
-        this.validator = validator;
-        this.mapper = mapper;
-    }
+    BusinessMapper mapper;
 
     public Response business() {
         return Response.ok(mapper.toDtoList(findAll().list())).build();
@@ -40,17 +35,10 @@ public class BusinessService implements PanacheRepository<BusinessEntity> {
         if (entity == null)
             return Response.status(Response.Status.NOT_FOUND).build();
 
-        return Response.ok().entity(mapper.toDto(entity)).build();
+        return Response.ok(mapper.toDto(entity)).build();
     }
 
     public Response create(BusinessDto dto) {
-        Set<ConstraintViolation<BusinessDto>> violations = validator.validate(dto);
-
-        if (!violations.isEmpty())
-            return ResponseError
-                    .createFromValidation(violations)
-                    .withStatusCode(ResponseError.UNPROCESSABLE_ENTITY_STATUS);
-
         BusinessEntity entity = mapper.toEntity(dto);
 
         persist(entity);
@@ -63,13 +51,6 @@ public class BusinessService implements PanacheRepository<BusinessEntity> {
 
         if (entity == null)
             return Response.status(Response.Status.NOT_FOUND).build();
-
-        Set<ConstraintViolation<BusinessDto>> violations = validator.validate(dto);
-
-        if (!violations.isEmpty())
-            return ResponseError
-                    .createFromValidation(violations)
-                    .withStatusCode(ResponseError.UNPROCESSABLE_ENTITY_STATUS);
 
         mapper.updateEntityFromDto(dto, entity);
 

@@ -1,10 +1,12 @@
 package br.com.softpethouse.api.account.service;
 
+import lombok.extern.slf4j.Slf4j;
 import br.com.softpethouse.api.Resources;
 import br.com.softpethouse.api.account.dto.AccountDtoOut;
 import br.com.softpethouse.api.account.dto.TypeAccountDto;
 import br.com.softpethouse.api.account.entity.AccountEntity;
 import br.com.softpethouse.api.account.entity.TypeAccountEntity;
+import br.com.softpethouse.api.account.mapper.TypeAccountMapper;
 import br.com.softpethouse.api.commom.validation.ResponseError;
 import br.com.softpethouse.api.commom.validation.ResponseMsg;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
@@ -20,44 +22,29 @@ import javax.ws.rs.core.UriBuilder;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Transactional
 @ApplicationScoped
 public class TypeAccountService implements PanacheRepository<TypeAccountEntity> {
 
-    private Validator validator;
-
     @Inject
-    public TypeAccountService(Validator validator) {
-        this.validator = validator;
-    }
+    private TypeAccountMapper mapper;
 
-    public Response typesAccount(){
-        return Response.ok().entity(findAll(Sort.by("name", Sort.Direction.Ascending))
-                .stream()
-                .map(TypeAccountDto::fromEntity)
-                .collect(Collectors.toList())).build();
+    public Response typesAccount() {
+        return Response.ok(mapper.toDtoList(findAll(Sort.by("name", Sort.Direction.Ascending)).list())).build();
     }
 
     public Response typesAccount(long id) {
         TypeAccountEntity entity = findById(id);
 
         if (entity == null)
-            return Response.status(Response.Status.NOT_FOUND.getStatusCode()).build();
+            return Response.status(Response.Status.NOT_FOUND).build();
 
-        return Response.ok().entity(TypeAccountDto.fromEntity(entity)).build();
+        return Response.ok(mapper.toDto(entity)).build();
     }
 
     public Response create(TypeAccountDto dto) {
-        Set<ConstraintViolation<TypeAccountDto>> violations = validator.validate(dto);
-
-        if (!violations.isEmpty())
-            return ResponseError
-                    .createFromValidation(violations)
-                    .withStatusCode(ResponseError.UNPROCESSABLE_ENTITY_STATUS);
-
-        TypeAccountEntity entity = TypeAccountEntity.builder()
-                .name(dto.getName())
-                .description(dto.getDescription()).build();
+        TypeAccountEntity entity = mapper.toEntity(dto);
 
         persist(entity);
 
@@ -67,19 +54,11 @@ public class TypeAccountService implements PanacheRepository<TypeAccountEntity> 
     public Response update(long id, TypeAccountDto dto) {
         TypeAccountEntity entity = findById(id);
 
-        if(entity == null)
+        if (entity == null)
             return Response.status(Response.Status.NOT_FOUND).build();
 
-        Set<ConstraintViolation<TypeAccountDto>> violations = validator.validate(dto);
-
-        if (!violations.isEmpty())
-            return ResponseError
-                    .createFromValidation(violations)
-                    .withStatusCode(ResponseError.UNPROCESSABLE_ENTITY_STATUS);
-
-        entity.setName(dto.getName());
-        entity.setDescription(dto.getDescription());
-
+        mapper.updateEntityFromDto(dto, entity)
+        ;
         return Response.ok().build();
     }
 
