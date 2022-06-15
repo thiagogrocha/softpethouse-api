@@ -10,18 +10,18 @@
 # Then, build the image with:
 #
 # docker build -f src/main/docker/Dockerfile.jvm -t quarkus/softpethouse-api-jvm .
-# docker build -f src/main/docker/Dockerfile.jvm -t thiagorocha-dev/softpethouse-api:0.2.0 .
+# docker build -f src/main/docker/Dockerfile.jvm -t thiagogrocha/softpethouse-api:0.5.0 .
 #
 # Then run the container using:
 #
-# docker run -i --rm -p 8081:8081 thiagorocha-dev/softpethouse-api
+# docker run -i --rm -p 8081:8081 thiagogrocha/softpethouse-api:0.5.0
 #
 # If you want to include the debug port into your docker image
 # you will have to expose the debug port (default 5005) like this :  EXPOSE 8080 5005
 #
 # Then run the container using :
 #
-# docker run -i --rm -p 8081:8081 thiagorocha-dev/softpethouse-api
+# docker run -i --rm -p 8081:8081 thiagogrocha/softpethouse-api:0.5.0
 #
 # This image uses the `run-java.sh` script to run the application.
 # This scripts computes the command line to execute your Java application, and
