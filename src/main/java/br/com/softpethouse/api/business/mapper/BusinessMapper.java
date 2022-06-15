@@ -9,7 +9,7 @@ import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
-@Mapper
+@Mapper(componentModel = "cdi")
 public interface BusinessMapper {
 
     List<BusinessDtoOut> toDtoList(List<BusinessEntity> entities);

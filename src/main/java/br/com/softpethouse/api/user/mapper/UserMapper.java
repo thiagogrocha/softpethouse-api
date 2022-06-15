@@ -5,7 +5,7 @@ import br.com.softpethouse.api.user.entity.UserEntity;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 
-@Mapper
+@Mapper(componentModel = "cdi")
 public interface UserMapper {
 
     UserDto toDto(UserEntity entity);

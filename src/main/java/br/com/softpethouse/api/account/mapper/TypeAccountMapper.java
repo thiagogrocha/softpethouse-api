@@ -8,7 +8,7 @@ import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
-@Mapper
+@Mapper(componentModel = "cdi")
 public interface TypeAccountMapper {
 
     List<TypeAccountDto> toDtoList(List<TypeAccountEntity> name);

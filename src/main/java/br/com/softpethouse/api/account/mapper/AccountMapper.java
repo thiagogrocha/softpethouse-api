@@ -10,7 +10,7 @@ import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
-@Mapper
+@Mapper(componentModel = "cdi")
 public interface AccountMapper {
     List<AccountDtoOut> toDtoList(List<AccountEntity> entities);
 
