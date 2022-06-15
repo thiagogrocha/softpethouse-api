@@ -36,7 +36,7 @@ public class BusinessResource {
     @APIResponses(value = {
             @APIResponse(responseCode = "200", description = "Sucesso", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = BusinessDtoOut.class, type = SchemaType.ARRAY))),
             @APIResponse(responseCode = "404", description = "Não encontrado"),
-            @APIResponse(responseCode = "500", description = "Erro interno", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = RuntimeException.class)))})
+            @APIResponse(responseCode = "500", description = "Erro interno", content = @Content(mediaType = MediaType.APPLICATION_JSON))})
     public Response business() {
         try {
             log.info("Requesting all Business.");
@@ -53,7 +53,7 @@ public class BusinessResource {
     @APIResponses(value = {
             @APIResponse(responseCode = "200", description = "Sucesso", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = BusinessDtoOut.class))),
             @APIResponse(responseCode = "404", description = "Negócio não encontrado"),
-            @APIResponse(responseCode = "500", description = "Erro interno", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = RuntimeException.class)))})
+            @APIResponse(responseCode = "500", description = "Erro interno", content = @Content(mediaType = MediaType.APPLICATION_JSON))})
     public Response business(@PathParam("id") long id) {
         try {
             log.info("Requesting Business by id {}.", id);
@@ -69,7 +69,7 @@ public class BusinessResource {
     @APIResponses(value = {
             @APIResponse(responseCode = "201", description = "Criado"),
             @APIResponse(responseCode = "422", description = "Objeto de entrada inválido",content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = ResponseError.class))),
-            @APIResponse(responseCode = "500", description = "Erro interno", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = RuntimeException.class)))})
+            @APIResponse(responseCode = "500", description = "Erro interno", content = @Content(mediaType = MediaType.APPLICATION_JSON))})
     public Response create(BusinessDto dto) {
         try {
             log.info("Creating Business.");
@@ -87,7 +87,7 @@ public class BusinessResource {
             @APIResponse(responseCode = "200", description = "Sucesso"),
             @APIResponse(responseCode = "404", description = "Negócio não encontrado"),
             @APIResponse(responseCode = "422", description = "Objeto de entrada inválido", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = ResponseError.class))),
-            @APIResponse(responseCode = "500", description = "Erro interno", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = RuntimeException.class)))})
+            @APIResponse(responseCode = "500", description = "Erro interno", content = @Content(mediaType = MediaType.APPLICATION_JSON))})
     public Response update(@PathParam("id") long id, BusinessDto dto) {
         try {
             log.info("Updating Business.");
@@ -104,7 +104,7 @@ public class BusinessResource {
     @APIResponses(value = {
             @APIResponse(responseCode = "204", description = "Desativado"),
             @APIResponse(responseCode = "404", description = "Negócio não encontrado"),
-            @APIResponse(responseCode = "500", description = "Erro interno", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = RuntimeException.class)))})
+            @APIResponse(responseCode = "500", description = "Erro interno", content = @Content(mediaType = MediaType.APPLICATION_JSON))})
     public Response disable(@PathParam("id") long id) {
         try {
             log.info("Disabling Business.");
