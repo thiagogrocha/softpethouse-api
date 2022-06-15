@@ -21,7 +21,7 @@ public class ResponseError {
         this.errors = errors;
     }
 
-    public static <T> ResponseError createFromValidation(Set<ConstraintViolation<T>> violations) {
+    public static <T> ResponseError createFromValidation(Set<ConstraintViolation<?>> violations) {
         return new ResponseError("Validation Error",
                 violations.parallelStream()
                 .map(cv -> new FieldError(cv.getPropertyPath().toString(), cv.getMessage()))
