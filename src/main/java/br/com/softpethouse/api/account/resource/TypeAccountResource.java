@@ -43,7 +43,7 @@ public class TypeAccountResource {
 
     @GET
     @Path(("{id}"))
-    @Operation(summary = "Tipo de Conta de Usuário", description = "Busca Tipos de Conta de Usuário por id")
+    @Operation(summary = "Tipo de Conta de Usuário", description = "Busca Tipo de Conta de Usuário por id")
     @APIResponses(value = {
             @APIResponse(responseCode = "200", description = "Sucesso",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = TypeAccountDto.class))),
@@ -61,8 +61,7 @@ public class TypeAccountResource {
     @POST
     @Operation(summary = "Criar", description = "Cria um Tipo de Conta de Usuário que pode ser Cliente, Consultor ou Administrador")
     @APIResponses(value = {
-            @APIResponse(responseCode = "201", description = "Criado",
-                    content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = TypeAccountDto.class))),
+            @APIResponse(responseCode = "201", description = "Criado"),
             @APIResponse(responseCode = "422", description = "Campos obrigatórios não informados",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = ResponseError.class))),
             @APIResponse(responseCode = "500", description = "Erro interno")})
@@ -79,8 +78,7 @@ public class TypeAccountResource {
     @Path("{id}")
     @Operation(summary = "Atualizar", description = "Atualiza um Tipo de Conta de Usuário")
     @APIResponses(value = {
-            @APIResponse(responseCode = "200", description = "Sucesso",
-                    content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = String.class))),
+            @APIResponse(responseCode = "200", description = "Sucesso"),
             @APIResponse(responseCode = "403", description = "Tipo de Conta não encontrada"),
             @APIResponse(responseCode = "422", description = "Campos obrigatórios não informados",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = ResponseError.class))),
@@ -98,8 +96,7 @@ public class TypeAccountResource {
     @Path("{id}")
     @Operation(summary = "Desativar", description = "Desativa um Tipo de Conta de Usuário")
     @APIResponses(value = {
-            @APIResponse(responseCode = "204", description = "Desativado",
-                    content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = String.class))),
+            @APIResponse(responseCode = "204", description = "Desativado"),
             @APIResponse(responseCode = "403", description = "Conta não encontrada"),
             @APIResponse(responseCode = "500", description = "Erro interno")})
     public Response disable(@PathParam("id") long id) {

@@ -49,8 +49,8 @@ public class TypeAccountService implements PanacheRepository<TypeAccountEntity> 
         if (entity == null)
             return Response.status(Response.Status.NOT_FOUND).build();
 
-        mapper.updateEntityFromDto(dto, entity)
-        ;
+        mapper.updateEntityFromDto(dto, entity);
+
         return Response.ok().build();
     }
 
