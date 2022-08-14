@@ -1,5 +1,7 @@
 package br.com.softpethouse.api.user.dto;
 
+import br.com.softpethouse.api.user.entity.UserEntity;
+import lombok.Builder;
 import lombok.Data;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
@@ -9,6 +11,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
+@Builder
 @Schema(name = "User", description = "User dto in")
 @JsonbPropertyOrder({"name", "age"})
 public class UserDto {
