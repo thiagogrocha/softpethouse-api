@@ -1,5 +1,7 @@
 package br.com.softpethouse.api.account.dto;
 
+import br.com.softpethouse.api.account.entity.AccountEntity;
+import lombok.Builder;
 import lombok.Data;
 import br.com.softpethouse.api.business.dto.BusinessDto;
 import br.com.softpethouse.api.user.dto.UserDto;
@@ -8,6 +10,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import javax.json.bind.annotation.JsonbPropertyOrder;
 
 @Data
+@Builder
 @Schema(name = "Account", description = "Account dto out")
 @JsonbPropertyOrder({"id", "active", "username", "email", "user", "typeAccount", "business"})
 public class AccountDtoOut {
