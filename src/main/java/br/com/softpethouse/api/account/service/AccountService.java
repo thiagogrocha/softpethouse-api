@@ -1,11 +1,12 @@
 package br.com.softpethouse.api.account.service;
 
+import br.com.softpethouse.api.account.dto.AccountDtoOut;
+import br.com.softpethouse.api.user.entity.UserEntity;
 import lombok.extern.slf4j.Slf4j;
 import br.com.softpethouse.api.Resources;
 import br.com.softpethouse.api.account.dto.AccountDtoCreate;
 import br.com.softpethouse.api.account.dto.AccountDtoUpdate;
 import br.com.softpethouse.api.account.entity.AccountEntity;
-import br.com.softpethouse.api.account.mapper.AccountMapper;
 import br.com.softpethouse.api.business.entity.BusinessEntity;
 import br.com.softpethouse.api.account.entity.TypeAccountEntity;
 import br.com.softpethouse.api.business.service.BusinessService;
@@ -19,14 +20,12 @@ import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Transactional
 @ApplicationScoped
 public class AccountService implements PanacheRepository<AccountEntity> {
-
-    @Inject
-    AccountMapper mapper;
 
     @Inject
     UserService userService;
@@ -38,7 +37,8 @@ public class AccountService implements PanacheRepository<AccountEntity> {
     BusinessService businessService;
 
     public Response accounts() {
-        return Response.ok(mapper.toDtoList(findAll(Sort.by("username", Sort.Direction.Ascending)).list())).build();
+        return Response.ok(findAll(Sort.by("username", Sort.Direction.Ascending)).list()
+                .stream().map(AccountDtoOut::toDto).collect(Collectors.toList())).build();
     }
 
     public Response accounts(long id) {
@@ -47,7 +47,7 @@ public class AccountService implements PanacheRepository<AccountEntity> {
         if (entity == null)
             return Response.status(Response.Status.NOT_FOUND).build();
 
-        return Response.ok(mapper.toDto(entity)).build();
+        return Response.ok(AccountDtoOut.toDto(entity)).build();
     }
 
     public Response create(AccountDtoCreate dto) {
@@ -61,8 +61,9 @@ public class AccountService implements PanacheRepository<AccountEntity> {
         if (business == null)
             return Response.status(Response.Status.NOT_FOUND).entity(new ResponseMsg("Negócio não encontrado!")).build();
 
-        AccountEntity entity = mapper.toEntity(dto);
-        entity.setUser(userService.create(dto.getUser()));
+        UserEntity user = userService.create(dto.getUser());
+
+        AccountEntity entity = AccountEntity.toEntity(dto, typeAccount, business, user);
 
         persist(entity);
 
@@ -85,7 +86,10 @@ public class AccountService implements PanacheRepository<AccountEntity> {
         if (business == null)
             return Response.status(Response.Status.NOT_FOUND).entity(new ResponseMsg("Negócio não encontrado!")).build();
 
-        mapper.updateEntityFromDto(dto, account);
+        account.setTypeAccount(typeAccount);
+        account.setBusiness(business);
+        account.setUsername(dto.getUserName());
+        account.setPassword(dto.getPassword());
 
         return Response.ok().build();
     }
@@ -100,4 +104,5 @@ public class AccountService implements PanacheRepository<AccountEntity> {
 
         return Response.noContent().build();
     }
+
 }
