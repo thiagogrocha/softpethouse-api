@@ -1,5 +1,8 @@
 package br.com.softpethouse.api.adoption.entity;
 
+import br.com.softpethouse.api.adoption.dto.AdoptionDto;
+import br.com.softpethouse.api.adoption.dto.AdoptionDtoCreate;
+import lombok.Builder;
 import lombok.Data;
 import br.com.softpethouse.api.commom.EntityBase;
 import br.com.softpethouse.api.pet.entity.PetEntity;
@@ -9,6 +12,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Data
+@Builder
 @Entity
 @Table(name = "adoptions")
 @SequenceGenerator(name = "AdoptionsSeq", sequenceName = "seq_adoptions", allocationSize = 1)
