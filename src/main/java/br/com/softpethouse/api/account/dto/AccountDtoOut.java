@@ -36,4 +36,16 @@ public class AccountDtoOut {
     @Schema(title = "Active", implementation = String.class)
     private String active;
 
+    public static AccountDtoOut toDto(AccountEntity entity) {
+        return AccountDtoOut.builder()
+                .id(entity.getId())
+                .user(UserDto.toDto(entity.getUser()))
+                .typeAccount(TypeAccountDto.toDto(entity.getTypeAccount()))
+                .business(BusinessDto.toDto(entity.getBusiness()))
+                .username(entity.getUsername())
+                .email(entity.getEmail())
+                .active(entity.getActive())
+                .build();
+    }
+
 }

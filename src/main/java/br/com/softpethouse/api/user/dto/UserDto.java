@@ -23,4 +23,11 @@ public class UserDto {
     @Parameter(description = "Age parameter")
     private int age;
 
+    public static UserDto toDto(UserEntity entity) {
+        return UserDto.builder()
+                .name(entity.getName())
+                .age(entity.getAge())
+                .build();
+    }
+
 }

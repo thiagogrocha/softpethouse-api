@@ -22,4 +22,10 @@ public class TypeAccountDto {
     @Parameter(description = "Descrição parameter")
     private String description;
 
+    public static TypeAccountDto toDto(TypeAccountEntity entity) {
+        return TypeAccountDto.builder()
+                .name(entity.getName())
+                .description(entity.getDescription())
+                .build();
+    }
 }

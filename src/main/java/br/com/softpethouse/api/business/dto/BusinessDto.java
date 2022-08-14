@@ -22,4 +22,11 @@ public class BusinessDto {
     @Parameter(description = "Descrição parameter")
     private String description;
 
+    public static BusinessDto toDto(BusinessEntity entity) {
+        return BusinessDto.builder()
+                .name(entity.getName())
+                .description(entity.getDescription())
+                .build();
+    }
+
 }
