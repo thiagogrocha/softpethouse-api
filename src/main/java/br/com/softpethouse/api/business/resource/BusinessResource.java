@@ -65,7 +65,7 @@ public class BusinessResource {
     @Operation(summary = "Criar", description = "Cria Negócio que pode ser uma Loja ou Clínica Veterinária")
     @APIResponses(value = {
             @APIResponse(responseCode = "201", description = "Criado"),
-            @APIResponse(responseCode = "422", description = "Objeto de entrada inválido",content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = ResponseError.class))),
+            @APIResponse(responseCode = "422", description = "Objeto de entrada inválido", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = ResponseError.class))),
             @APIResponse(responseCode = "500", description = "Erro interno", content = @Content(mediaType = MediaType.APPLICATION_JSON))})
     public Response create(@Valid BusinessDto dto) {
         try {
