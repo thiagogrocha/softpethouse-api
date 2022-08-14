@@ -1,5 +1,6 @@
 package br.com.softpethouse.api.negotiation.entity;
 
+import br.com.softpethouse.api.negotiationItem.entity.NegotiationItemEntity;
 import lombok.Data;
 import br.com.softpethouse.api.commom.EntityBase;
 import br.com.softpethouse.api.product.entity.ProductEntity;
@@ -7,6 +8,7 @@ import br.com.softpethouse.api.user.entity.UserEntity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Entity
@@ -22,9 +24,9 @@ public class NegotiationEntity extends EntityBase {
     @JoinColumn(name = "iduser")
     private UserEntity user;
 
-    @ManyToOne
-    @JoinColumn(name = "idproduct")
-    private ProductEntity product;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "idnegotiation")
+    private List<NegotiationItemEntity> negotiationItems;
 
     @Column(nullable = false)
     private double value;
