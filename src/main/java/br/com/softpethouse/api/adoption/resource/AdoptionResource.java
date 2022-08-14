@@ -1,5 +1,6 @@
 package br.com.softpethouse.api.adoption.resource;
 
+import br.com.softpethouse.api.adoption.dto.AdoptionDtoCreate;
 import lombok.extern.slf4j.Slf4j;
 import br.com.softpethouse.api.Resources;
 import br.com.softpethouse.api.adoption.dto.AdoptionDto;
@@ -41,7 +42,7 @@ public class AdoptionResource {
     }
 
     @GET
-    @Path(("{id}"))
+    @Path("{id}")
         @Operation(summary = "Adoção", description = "Busca Adoção por id")
     @APIResponses(value = {
             @APIResponse(responseCode = "200", description = "Sucesso", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = AdoptionDto.class))),
@@ -62,7 +63,7 @@ public class AdoptionResource {
             @APIResponse(responseCode = "201", description = "Criado"),
             @APIResponse(responseCode = "422", description = "Campos obrigatórios não informados", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = ResponseError.class))),
             @APIResponse(responseCode = "500", description = "Erro interno")})
-    public Response create(@Valid AdoptionDto dto) {
+    public Response create(@Valid AdoptionDtoCreate dto) {
         try {
             return service.create(dto);
         } catch (Exception e) {
@@ -79,7 +80,7 @@ public class AdoptionResource {
             @APIResponse(responseCode = "403", description = "Adoção não encontrada"),
             @APIResponse(responseCode = "422", description = "Campos obrigatórios não informados", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = ResponseError.class))),
             @APIResponse(responseCode = "500", description = "Erro interno")})
-    public Response update(@PathParam("id") long id, @Valid AdoptionDto dto) {
+    public Response update(@PathParam("id") long id, @Valid AdoptionDtoCreate dto) {
         try {
             return service.update(id, dto);
         } catch (Exception e) {

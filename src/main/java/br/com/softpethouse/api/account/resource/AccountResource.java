@@ -44,7 +44,7 @@ public class AccountResource {
     }
 
     @GET
-    @Path(("{id}"))
+    @Path("{id}")
     @Operation(summary = "Conta de Usuário", description = "Busca Conta de Usuário por id")
     @APIResponses(value = {
             @APIResponse(responseCode = "200", description = "Sucesso",

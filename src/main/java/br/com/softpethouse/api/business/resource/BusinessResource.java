@@ -45,7 +45,7 @@ public class BusinessResource {
     }
 
     @GET
-    @Path(("{id}"))
+    @Path("{id}")
     @Operation(summary = "Negócio", description = "Busca Negócio por id")
     @APIResponses(value = {
             @APIResponse(responseCode = "200", description = "Sucesso", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = BusinessDtoOut.class))),
