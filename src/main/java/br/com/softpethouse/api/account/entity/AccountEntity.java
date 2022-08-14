@@ -41,4 +41,15 @@ public class AccountEntity extends EntityBase {
     @Column(nullable = false)
     private String password;
 
+    public static AccountEntity toEntity(AccountDtoCreate dto, TypeAccountEntity typeAccount, BusinessEntity business, UserEntity user) {
+        return AccountEntity.builder()
+                .user(user)
+                .typeAccount(typeAccount)
+                .business(business)
+                .username(dto.getUsername())
+                .email(dto.getEmail())
+                .password(dto.getPassword())
+                .build();
+    }
+
 }

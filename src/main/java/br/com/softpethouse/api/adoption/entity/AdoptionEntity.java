@@ -43,4 +43,13 @@ public class AdoptionEntity extends EntityBase {
             dateTime = LocalDateTime.now();
     }
 
+    public static AdoptionEntity toEntity(PetEntity pet, UserEntity userOld, UserEntity userNew, LocalDateTime dateTime) {
+        return AdoptionEntity.builder()
+                .pet(pet)
+                .userOld(userOld)
+                .userNew(userNew)
+                .dateTime(dateTime)
+                .build();
+    }
+
 }
