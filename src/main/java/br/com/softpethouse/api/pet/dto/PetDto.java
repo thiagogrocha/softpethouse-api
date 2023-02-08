@@ -21,7 +21,7 @@ public class PetDto {
 
     private String bread;
 
-    private int age;
+    private String dtBirth;
 
     public static PetDto toDto(PetEntity entity) {
         return PetDto.builder()
@@ -30,7 +30,7 @@ public class PetDto {
                 .name(entity.getName())
                 .species(entity.getSpecies())
                 .bread(entity.getBread())
-                .age(entity.getAge())
+                .dtBirth(entity.getDtBirth().toString())
                 .build();
     }
 

@@ -21,7 +21,7 @@ public class BusinessDto {
     private String name;
 
     @NotNull(message = "A descrição é obrigatória!")
-    @Schema(title = "Descrição")
+    @Schema(title = "Descrição", required = true)
     @Parameter(description = "Descrição parameter")
     private String description;
 

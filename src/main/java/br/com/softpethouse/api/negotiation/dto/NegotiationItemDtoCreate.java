@@ -5,9 +5,11 @@ import lombok.Data;
 @Data
 public class NegotiationItemDtoCreate {
 
+    private long negotiationId;
+
     private long productId;
 
-    private double qtt;
+    private double quantity;
 
     private double value;
 

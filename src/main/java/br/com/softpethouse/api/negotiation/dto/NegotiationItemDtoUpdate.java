@@ -2,19 +2,15 @@ package br.com.softpethouse.api.negotiation.dto;
 
 import lombok.Data;
 
-import java.time.LocalDateTime;
-
 @Data
 public class NegotiationItemDtoUpdate {
 
-    private long userId;
+    private long negotiationId;
 
-    private long businessId;
+    private long productId;
+
+    private double quantity;
 
     private double value;
-
-    private LocalDateTime dateTime;
-
-    private String description;
 
 }

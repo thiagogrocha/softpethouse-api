@@ -21,7 +21,7 @@ public class AccountDtoOut {
     @Schema(title = "User", implementation = UserDto.class)
     private UserDto user;
 
-    @Schema(title = "Id TypeAccount", implementation = TypeAccountDto.class)
+    @Schema(title = "TypeAccount", implementation = TypeAccountDto.class)
     private TypeAccountDto typeAccount;
 
     @Schema(title = "Id Business", implementation = BusinessDto.class)
