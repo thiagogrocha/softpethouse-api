@@ -7,7 +7,7 @@ import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import javax.validation.constraints.NotEmpty;
 
 @Data
-@Schema(name = "Product", description = "Product dto to create")
+@Schema(name = "Product", description = "Product dto to update")
 public class ProductDtoUpdate {
 
     @NotEmpty(message = "A descrição é obrigatória!")
