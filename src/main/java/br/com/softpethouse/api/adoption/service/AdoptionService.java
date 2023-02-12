@@ -10,10 +10,8 @@ import br.com.softpethouse.api.user.entity.UserEntity;
 import br.com.softpethouse.api.user.service.UserService;
 import io.quarkus.panache.common.Sort;
 import lombok.extern.slf4j.Slf4j;
-import br.com.softpethouse.api.adoption.entity.AdoptionEntity;
-import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.core.Response;
@@ -22,7 +20,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Transactional
-@ApplicationScoped
+@RequestScoped
 public class AdoptionService implements PanacheRepository<AdoptionEntity> {
 
     @Inject

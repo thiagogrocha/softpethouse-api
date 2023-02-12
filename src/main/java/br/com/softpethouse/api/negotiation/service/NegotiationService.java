@@ -14,7 +14,7 @@ import br.com.softpethouse.api.user.service.UserService;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.core.Response;
@@ -23,7 +23,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
-@ApplicationScoped
+@Transactional
+@RequestScoped
 public class NegotiationService implements PanacheRepository<NegotiationEntity> {
 
     @Inject

@@ -5,13 +5,15 @@ import br.com.softpethouse.api.Resources;
 import br.com.softpethouse.api.product.entity.ProductEntity;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 
 @Slf4j
-@ApplicationScoped
+@Transactional
+@RequestScoped
 public class ProductService implements PanacheRepository<ProductEntity> {
 
     public Response products() {

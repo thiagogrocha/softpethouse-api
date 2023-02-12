@@ -15,7 +15,7 @@ import br.com.softpethouse.api.user.service.UserService;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import io.quarkus.panache.common.Sort;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.core.Response;
@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Transactional
-@ApplicationScoped
+@RequestScoped
 public class AccountService implements PanacheRepository<AccountEntity> {
 
     @Inject

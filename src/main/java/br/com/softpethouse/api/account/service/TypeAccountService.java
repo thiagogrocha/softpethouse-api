@@ -8,15 +8,14 @@ import br.com.softpethouse.api.account.mapper.TypeAccountMapper;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import io.quarkus.panache.common.Sort;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import javax.enterprise.context.RequestScoped;
 import javax.transaction.Transactional;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 
 @Slf4j
 @Transactional
-@ApplicationScoped
+@RequestScoped
 public class TypeAccountService implements PanacheRepository<TypeAccountEntity> {
 
     @Inject

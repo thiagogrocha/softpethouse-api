@@ -5,10 +5,9 @@ import br.com.softpethouse.api.user.entity.UserEntity;
 import br.com.softpethouse.api.user.mapper.UserMapper;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import javax.enterprise.context.RequestScoped;
 
-@ApplicationScoped
+@RequestScoped
 public class UserService implements PanacheRepository<UserEntity> {
 
     @Inject

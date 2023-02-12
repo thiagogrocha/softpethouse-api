@@ -8,8 +8,7 @@ import br.com.softpethouse.api.business.mapper.BusinessMapper;
 import br.com.softpethouse.api.commom.validation.ResponseError;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import javax.enterprise.context.RequestScoped;
 import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
@@ -19,7 +18,7 @@ import java.util.Set;
 
 @Slf4j
 @Transactional
-@ApplicationScoped
+@RequestScoped
 public class BusinessService implements PanacheRepository<BusinessEntity> {
 
     @Inject
