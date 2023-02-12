@@ -1,11 +1,10 @@
 package br.com.softpethouse.api.account.entity;
 
-import br.com.softpethouse.api.account.dto.AccountDtoCreate;
-import lombok.Builder;
-import lombok.Data;
 import br.com.softpethouse.api.business.entity.BusinessEntity;
 import br.com.softpethouse.api.commom.EntityBase;
 import br.com.softpethouse.api.user.entity.UserEntity;
+import lombok.Builder;
+import lombok.Data;
 
 import javax.persistence.*;
 
@@ -21,15 +20,15 @@ public class AccountEntity extends EntityBase {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "iduser")
+    @JoinColumn(name = "user_id")
     private UserEntity user;
 
     @ManyToOne
-    @JoinColumn(name = "idtypeaccount")
+    @JoinColumn(name = "typeaccount_id")
     private TypeAccountEntity typeAccount;
 
     @ManyToOne
-    @JoinColumn(name = "idbusiness")
+    @JoinColumn(name = "business_id")
     private BusinessEntity business;
 
     @Column(nullable = false)
@@ -40,16 +39,5 @@ public class AccountEntity extends EntityBase {
 
     @Column(nullable = false)
     private String password;
-
-    public static AccountEntity toEntity(AccountDtoCreate dto, TypeAccountEntity typeAccount, BusinessEntity business, UserEntity user) {
-        return AccountEntity.builder()
-                .user(user)
-                .typeAccount(typeAccount)
-                .business(business)
-                .username(dto.getUsername())
-                .email(dto.getEmail())
-                .password(dto.getPassword())
-                .build();
-    }
 
 }

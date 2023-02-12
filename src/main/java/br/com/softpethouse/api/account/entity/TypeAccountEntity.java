@@ -1,14 +1,16 @@
 package br.com.softpethouse.api.account.entity;
 
-import lombok.Data;
 import br.com.softpethouse.api.commom.EntityBase;
+import lombok.Builder;
+import lombok.Data;
 
 import javax.persistence.*;
 
 @Data
+@Builder
 @Entity
-@Table(name = "typesAccount")
-@SequenceGenerator(name = "TypesAccountSeq", sequenceName = "seq_typesAccount", allocationSize = 1)
+@Table(name = "typesaccount")
+@SequenceGenerator(name = "TypesAccountSeq", sequenceName = "seq_types_account", allocationSize = 1)
 public class TypeAccountEntity extends EntityBase {
 
     @Id

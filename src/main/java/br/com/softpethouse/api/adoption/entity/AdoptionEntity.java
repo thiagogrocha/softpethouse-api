@@ -1,15 +1,12 @@
 package br.com.softpethouse.api.adoption.entity;
 
-import br.com.softpethouse.api.adoption.dto.AdoptionDto;
-import br.com.softpethouse.api.adoption.dto.AdoptionDtoCreate;
-import lombok.Builder;
-import lombok.Data;
 import br.com.softpethouse.api.commom.EntityBase;
 import br.com.softpethouse.api.pet.entity.PetEntity;
 import br.com.softpethouse.api.user.entity.UserEntity;
+import lombok.Builder;
+import lombok.Data;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -23,33 +20,15 @@ public class AdoptionEntity extends EntityBase {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "idpet")
+    @JoinColumn(name = "pet_id")
     private PetEntity pet;
 
     @ManyToOne
-    @JoinColumn(name = "idUserOld")
+    @JoinColumn(name = "userOl_iId")
     private UserEntity userOld;
 
     @ManyToOne
-    @JoinColumn(name = "idUserNew")
+    @JoinColumn(name = "userNew_id")
     private UserEntity userNew;
-
-    @Column(nullable = false)
-    private LocalDateTime dateTime;
-
-    @PrePersist
-    private void setDefaultDateTime() {
-        if (dateTime == null)
-            dateTime = LocalDateTime.now();
-    }
-
-    public static AdoptionEntity toEntity(PetEntity pet, UserEntity userOld, UserEntity userNew, LocalDateTime dateTime) {
-        return AdoptionEntity.builder()
-                .pet(pet)
-                .userOld(userOld)
-                .userNew(userNew)
-                .dateTime(dateTime)
-                .build();
-    }
 
 }
