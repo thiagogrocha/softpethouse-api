@@ -1,30 +1,42 @@
 package br.com.softpethouse.api.account.dto;
 
-import lombok.Getter;
+import br.com.softpethouse.api.account.entity.TypeAccountEntity;
+import lombok.Builder;
+import lombok.Data;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 
 import javax.json.bind.annotation.JsonbPropertyOrder;
 
-@Getter
+@Data
+@Builder
 @Schema(name = "Type Account", description = "Type Account dto out")
 @JsonbPropertyOrder({"id", "active", "name", "description"})
 public class TypeAccountDtoOut {
 
     @Schema(title = "Id do Tipo de Conta")
-    @Parameter(description = "Id parameter")
+    @Parameter(description = "id parameter")
     private long id;
 
-    @Schema(title = "Nome do Tipo de Conta")
-    @Parameter(description = "Nome parameter")
+    @Schema(title = "Name")
+    @Parameter(description = "name parameter")
     private String name;
 
-    @Schema(title = "Descrição")
-    @Parameter(description = "Descrição parameter")
+    @Schema(title = "Description")
+    @Parameter(description = "description parameter")
     private String description;
 
-    @Schema(title = "Ativo")
-    @Parameter(description = "Ativo parameter")
+    @Schema(title = "Active")
+    @Parameter(description = "active parameter")
     private String active;
+
+    public static TypeAccountDtoOut toDto(TypeAccountEntity entity) {
+        return TypeAccountDtoOut.builder()
+                .id(entity.getId())
+                .name(entity.getName())
+                .description(entity.getDescription())
+                .active(entity.getActive())
+                .build();
+    }
 
 }

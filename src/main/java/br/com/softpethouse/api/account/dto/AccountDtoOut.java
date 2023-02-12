@@ -1,10 +1,10 @@
 package br.com.softpethouse.api.account.dto;
 
 import br.com.softpethouse.api.account.entity.AccountEntity;
+import br.com.softpethouse.api.business.dto.BusinessDtoOut;
+import br.com.softpethouse.api.user.dto.UserDtoOut;
 import lombok.Builder;
 import lombok.Data;
-import br.com.softpethouse.api.business.dto.BusinessDto;
-import br.com.softpethouse.api.user.dto.UserDto;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import javax.json.bind.annotation.JsonbPropertyOrder;
@@ -15,33 +15,33 @@ import javax.json.bind.annotation.JsonbPropertyOrder;
 @JsonbPropertyOrder({"id", "active", "username", "email", "user", "typeAccount", "business"})
 public class AccountDtoOut {
 
-    @Schema(title = "Id Account", implementation = Long.class)
+    @Schema(title = "Account Id")
     private long id;
 
-    @Schema(title = "User", implementation = UserDto.class)
-    private UserDto user;
+    @Schema(title = "User", implementation = UserDtoOut.class)
+    private UserDtoOut user;
 
-    @Schema(title = "TypeAccount", implementation = TypeAccountDto.class)
-    private TypeAccountDto typeAccount;
+    @Schema(title = "TypeAccount", implementation = TypeAccountDtoOut.class)
+    private TypeAccountDtoOut typeAccount;
 
-    @Schema(title = "Id Business", implementation = BusinessDto.class)
-    private BusinessDto business;
+    @Schema(title = "Business", implementation = BusinessDtoOut.class)
+    private BusinessDtoOut business;
 
-    @Schema(title = "Username", implementation = String.class)
+    @Schema(title = "Username")
     private String username;
 
-    @Schema(title = "E-mail", implementation = String.class)
+    @Schema(title = "E-mail")
     private String email;
 
-    @Schema(title = "Active", implementation = String.class)
+    @Schema(title = "Active")
     private String active;
 
     public static AccountDtoOut toDto(AccountEntity entity) {
         return AccountDtoOut.builder()
                 .id(entity.getId())
-                .user(UserDto.toDto(entity.getUser()))
-                .typeAccount(TypeAccountDto.toDto(entity.getTypeAccount()))
-                .business(BusinessDto.toDto(entity.getBusiness()))
+                .user(UserDtoOut.toDto(entity.getUser()))
+                .typeAccount(TypeAccountDtoOut.toDto(entity.getTypeAccount()))
+                .business(BusinessDtoOut.toDto(entity.getBusiness()))
                 .username(entity.getUsername())
                 .email(entity.getEmail())
                 .active(entity.getActive())
