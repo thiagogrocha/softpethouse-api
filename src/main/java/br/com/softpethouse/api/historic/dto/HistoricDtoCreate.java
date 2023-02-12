@@ -1,22 +1,32 @@
 package br.com.softpethouse.api.historic.dto;
 
-import lombok.Getter;
+import br.com.softpethouse.api.historic.entity.HistoricEntity;
+import br.com.softpethouse.api.pet.entity.PetEntity;
+import lombok.Data;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
 
-@Getter
+@Data
 @Schema(name = "Histórico", description = "Histórico dto create")
 public class HistoricDtoCreate {
 
-    @NotNull(message = "O Pet é obrigatório!")
-    @Schema(title = "Pet", implementation = Long.class, required = true)
+    @NotEmpty(message = "O Pet é obrigatório!")
+    @Schema(title = "Pet", required = true)
     @Parameter(description = "Pet parameter")
     private long petId;
 
-    @Schema(title = "Descrição", implementation = String.class, required = true)
-    @Parameter(description = "Descrição parameter")
+    @NotEmpty(message = "A Descrição é obrigatória!")
+    @Schema(title = "Descrição", required = true)
+    @Parameter(description = "description parameter")
     private String description;
+
+    public static HistoricEntity toEntity(PetEntity pet, HistoricDtoCreate dto) {
+        return HistoricEntity.builder()
+                .pet(pet)
+                .description(dto.getDescription())
+                .build();
+    }
 
 }
